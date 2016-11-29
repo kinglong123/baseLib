@@ -1,0 +1,64 @@
+apply plugin: "sonar-runner"
+
+apply from: "${cacheConfigs}/gradle/jacoco.gradle"
+
+android {
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    sourceSets {
+        instrumentTest.setRoot('src/test/')
+        instrumentTest {
+            java {
+                srcDirs = [
+                        'src/test/java/'
+                ]
+            }
+            res.srcDirs = ["src/main/res"]
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+    }
+}
+
+sonarRunner {
+    toolVersion = '2.4' // default
+
+    def sonarUrl = "http://sonar.sdp.nd/"
+    def sonarProjectName = "${this.group}:${this.name}" // use project name
+
+    sonarProperties {
+        property "sonar.projectName", sonarProjectName
+        property "sonar.projectKey", sonarProjectName
+        property "sonar.projectVersion", this.version
+        property "sonar.host.url", sonarUrl
+        property "sonar.language", "java"
+        property "sonar.sources", "src/main/java"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.login", new String(System.properties['sonarUsername'].decodeBase64(), "utf-8")
+        property "sonar.password", new String(System.properties['sonarPassword'].decodeBase64(), "utf-8")
+
+        property "sonar.profile", "Android Lint"
+        // 单元测试代码路径
+        property "sonar.tests", android.sourceSets.instrumentTest.java.srcDirs
+        // 配置是否动态检测，true：possible，false：reuseReports
+        property "sonar.dynamicAnalysis", "reuseReports"
+        // JaCoCo单元测试覆盖率文件的路径
+        property "sonar.jacoco.reportPath", "${buildDir}/jacoco/testDebugUnitTest.exec"
+        // JaCoCo集成测试覆盖率文件的路径，生成集成测试数据
+        property "sonar.jacoco.itReportPath", "${buildDir}/jacoco/testDebugUnitTest.exec"
+        // 编译文件存放的目录
+        property "sonar.java.binaries", "${buildDir}/intermediates/classes/debug/"
+        // 测试执行报告目录，UT数统计
+        property "sonar.junit.reportsPath", "${buildDir}/test-results/debug"
+        // 单元测试报告的路径，根据自身代码结构修改...
+        property "sonar.surefire.reportsPath", "${buildDir}/test-results/debug"
+    }
+
+    forkOptions {
+        maxHeapSize = '2048m'
+    }
+}
+
+tasks.findByName("sonarRunner").dependsOn = ['jacocoReport']
