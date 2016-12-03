@@ -27,4 +27,12 @@
             android:id="@+id/btjson"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+
+    <Button
+            android:text="Hello String!"
+            android:id="@+id/btstring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 </LinearLayout>

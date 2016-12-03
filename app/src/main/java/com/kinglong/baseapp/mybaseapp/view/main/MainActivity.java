@@ -28,13 +28,15 @@ public class MainActivity extends BaseActivity {
     }
     Button mButton;
     Button mButtonByJson;
+    Button nButtonString;
+
     @Override
     protected void afterCreate(Bundle state) {
         mButton =   (Button)findViewById(R.id.bt);
 
 
         mButtonByJson=   (Button)findViewById(R.id.btjson);
-
+        nButtonString=   (Button)findViewById(R.id.btstring);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +58,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+
         mButtonByJson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +78,26 @@ public class MainActivity extends BaseActivity {
                     }
                 });
 
+            }
+        });
+
+        nButtonString.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<String>  call =  UserService.getString();
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+
+                        String baseEntry = response.body();
+                        System.out.println("baseEntry:"+baseEntry);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        System.out.println("Throwable:"+t.getMessage());
+                    }
+                });
             }
         });
     }

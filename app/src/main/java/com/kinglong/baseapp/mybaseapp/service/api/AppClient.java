@@ -18,8 +18,16 @@ public enum AppClient {
 
     private static InterAppClientApi api;
     private static InterAppClientApi apiByJson;
+
+    private static InterAppClientApi apiString;
+
     protected static String URL="http://dyapi.91open.com";
-    //    protected static String Url="http://dyapi.91open.com/v1/1021/app/getnewprojectinfo";
+
+    protected static String URLSTRING="http://auxo-forcestudy2-gateway.edu.web.sdp.101.com/";//用来测试string
+
+    //protected static String Url="http://dyapi.91open.com/v1/1021/app/getnewprojectinfo";
+
+
     static {
         Retrofit mRetrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -33,18 +41,32 @@ public enum AppClient {
     }
 
 
-
-
     static {
         Retrofit mRetrofitJson = new Retrofit.Builder()
                 .baseUrl(URL)
 //                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(StringConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create(
                         ObjectMapperUtils.getMapperInstance()))//Unrecognized field 自己定义的ObjectMapper
                 .client(new OkHttpClient())
                 .build();
         apiByJson = mRetrofitJson.create(InterAppClientApi.class);
     }
+
+    //仅用于测试返回String的情况
+    static {
+        Retrofit mRetrofitString = new Retrofit.Builder()
+                .baseUrl(URLSTRING)
+//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+
+                .addConverterFactory(StringConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+
+                .client(new OkHttpClient())
+                .build();
+        apiString = mRetrofitString.create(InterAppClientApi.class);
+    }
+
 
 
 
@@ -55,4 +77,9 @@ public enum AppClient {
     public InterAppClientApi getApiByJson() {
         return apiByJson;
     }
+
+    public InterAppClientApi getApiGetString() {
+        return apiString;
+    }
+
 }

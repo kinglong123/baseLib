@@ -24,4 +24,10 @@ public interface InterAppClientApi {
     Call<BaseEntryByJson>  getProjectInfoByJson(
             @Path("projectId") String projectId
     );
+
+
+    @POST("/")
+    Call<String> getStingTest();
+
+
 }
