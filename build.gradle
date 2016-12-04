@@ -3,6 +3,7 @@ apply from: "${CONFIG_URL}/loadConfig.gradle"
 
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
     }
     dependencies {

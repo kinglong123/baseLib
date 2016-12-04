@@ -35,4 +35,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+
+
+
+
+    <Button
+            android:text="Hello 测试友盟错误上报!"
+            android:id="@+id/bterr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    <Button
+            android:text="Hello 参数传递 Restore!"
+            android:id="@+id/btarg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <Button
+            android:text="Hello 参数传递 !"
+            android:id="@+id/btarg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -53,7 +53,7 @@ public enum PageManager {
      */
     public void finishActivity(Activity activity) {
         if (activity != null) {
-            activityStack.remove(activity);
+           // activityStack.remove(activity);
             activity.finish();
             activity = null;
         }
@@ -96,6 +96,18 @@ public enum PageManager {
             System.exit(0);
         } catch (Exception e) {
         }
+    }
+
+
+    public void destroyExcept(Class<? extends Activity> clazz) {
+        for (int i = 0, size = activityStack.size(); i < size; i++) {
+            WeakReference<Activity> wactivity = activityStack.get(i);
+            if (wactivity != null && wactivity.get() != null&&  !wactivity.get().getClass().equals(clazz)) {
+              //  activityStack.remove()
+                wactivity.get().finish();
+            }
+        }
+
     }
 
     public boolean isAppExit() {

@@ -28,4 +28,13 @@ public abstract class BaseFragment extends HermesFragment {
 
     protected abstract int getLayoutId();
 
+
+    @SuppressWarnings("unchecked")
+    protected <T> T findViewCall(int id) {
+        if (mRootView != null) {
+            return (T) mRootView.findViewById(id);
+        }
+        return null;
+    }
+
 }

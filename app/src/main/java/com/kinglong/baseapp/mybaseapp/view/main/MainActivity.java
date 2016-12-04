@@ -1,11 +1,16 @@
 package com.kinglong.baseapp.mybaseapp.view.main;
 
+import com.kinglong.baseapp.constant.BoundKey;
 import com.kinglong.baseapp.mybaseapp.R;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntry;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
+import com.kinglong.baseapp.mybaseapp.data.model.UserInfo;
 import com.kinglong.baseapp.mybaseapp.service.biz.UserService;
+import com.kinglong.baseapp.mybaseapp.view.Restore.RestoreTestActivity;
+import com.kinglong.baseapp.mybaseapp.view.Restore.RestoreTestActivity3;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,15 +33,24 @@ public class MainActivity extends BaseActivity {
     }
     Button mButton;
     Button mButtonByJson;
-    Button nButtonString;
+    Button mButtonString;
+
+    Button mButtonerr;
+    Button mButtonNll;
+
+    Button mButtonArg;
+    Button mButtonArg1;
+
 
     @Override
     protected void afterCreate(Bundle state) {
         mButton =   (Button)findViewById(R.id.bt);
-
-
         mButtonByJson=   (Button)findViewById(R.id.btjson);
-        nButtonString=   (Button)findViewById(R.id.btstring);
+        mButtonString=   (Button)findViewById(R.id.btstring);
+        mButtonerr=   (Button)findViewById(R.id.bterr);
+        mButtonArg=   (Button)findViewById(R.id.btarg);
+        mButtonArg1=   (Button)findViewById(R.id.btarg1);
+
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +95,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        nButtonString.setOnClickListener(new View.OnClickListener() {
+        mButtonString.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Call<String>  call =  UserService.getString();
@@ -98,6 +112,62 @@ public class MainActivity extends BaseActivity {
                         System.out.println("Throwable:"+t.getMessage());
                     }
                 });
+            }
+        });
+
+
+        mButtonerr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                mButtonNll.getText();
+
+                "123ffffss".substring(15);
+//                break;
+            }
+        });
+
+        mButtonArg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RestoreTestActivity.class);
+                Bundle bundle = new Bundle();
+                UserInfo userInfo = new UserInfo();
+                userInfo.setAge(20);
+                userInfo.setName("king");
+
+                bundle.putSerializable(BoundKey.KEY_USER_INFO, userInfo);
+                intent.putExtras(bundle);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+        mButtonArg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RestoreTestActivity.class);
+                Bundle bundle = new Bundle();
+                UserInfo userInfo = new UserInfo();
+                userInfo.setAge(20);
+                userInfo.setName("king");
+
+                bundle.putSerializable(BoundKey.KEY_USER_INFO, userInfo);
+                intent.putExtras(bundle);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+        mButtonArg1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RestoreTestActivity3.class);
+                Bundle bundle = new Bundle();
+                UserInfo userInfo = new UserInfo();
+                userInfo.setAge(20);
+                userInfo.setName("king");
+
+                bundle.putSerializable(BoundKey.KEY_USER_INFO, userInfo);
+                intent.putExtras(bundle);
+                MainActivity.this.startActivity(intent);
             }
         });
     }
