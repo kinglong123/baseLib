@@ -1,6 +1,6 @@
 package com.kinglong.baseapp.mybaseapp.view.Restore;
 
-import com.kinglong.baseapp.constant.BoundKey;
+import com.kinglong.baseapp.mybaseapp.constant.BoundKey;
 import com.kinglong.baseapp.mybaseapp.R;
 import com.kinglong.baseapp.mybaseapp.data.model.UserInfo;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseFragment;

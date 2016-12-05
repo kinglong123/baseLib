@@ -1,4 +1,4 @@
-package com.kinglong.baseapp.constant;
+package com.kinglong.baseapp.mybaseapp.constant;
 
 /**
  * Created by lanjl on 2016/12/4.

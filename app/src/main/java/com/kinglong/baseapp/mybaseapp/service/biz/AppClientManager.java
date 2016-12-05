@@ -1,6 +1,7 @@
 package com.kinglong.baseapp.mybaseapp.service.biz;
 
 import com.kinglong.baseapp.mybaseapp.service.api.AppClient;
+import com.kinglong.baseapp.mybaseapp.service.api.CompomemtServiceManager;
 import com.kinglong.baseapp.mybaseapp.service.api.GitHubClient;
 import com.kinglong.baseapp.mybaseapp.service.api.InterAppClientApi;
 import com.kinglong.baseapp.mybaseapp.service.api.InterGitHubClientApi;
@@ -9,7 +10,7 @@ import com.kinglong.baseapp.mybaseapp.service.api.InterGitHubClientApi;
  * Created by lanjl on 2016/12/3.
  */
 
-public class AppService {
+public class AppClientManager {
 
     protected static InterAppClientApi getApi() {
         return AppClient.INSTANCE.getApi();
@@ -24,6 +25,11 @@ public class AppService {
 
     protected static InterAppClientApi getStringApiTest() {
         return AppClient.INSTANCE.getApiGetString();
+    }
+
+
+    protected static InterAppClientApi getStringApiByDrgger() {
+        return new CompomemtServiceManager().getClientApi();
     }
 
 }

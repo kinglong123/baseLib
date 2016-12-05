@@ -1,5 +1,5 @@
 apply from: "${cacheConfigs}/gradle/application.gradle"
-
+apply plugin: 'com.neenbedankt.android-apt'
 android {
 //    compileSdkVersion 23
 //    buildToolsVersion "24.0.3"
@@ -46,6 +46,13 @@ dependencies {
     //友盟
 //    compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.umeng.analytics:analytics:6.0.4'
+
+
+    //dagger2
+    apt 'com.google.dagger:dagger-compiler:2.2'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.google.dagger:dagger:2.2'
+
     compile project(':uiframework')
 
 }

@@ -1,6 +1,6 @@
 package com.kinglong.baseapp.mybaseapp.view.main;
 
-import com.kinglong.baseapp.constant.BoundKey;
+import com.kinglong.baseapp.mybaseapp.constant.BoundKey;
 import com.kinglong.baseapp.mybaseapp.R;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntry;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
 
     Button mButtonArg;
     Button mButtonArg1;
-
+    Button mButtondagger;
 
     @Override
     protected void afterCreate(Bundle state) {
@@ -50,6 +50,7 @@ public class MainActivity extends BaseActivity {
         mButtonerr=   (Button)findViewById(R.id.bterr);
         mButtonArg=   (Button)findViewById(R.id.btarg);
         mButtonArg1=   (Button)findViewById(R.id.btarg1);
+        mButtondagger=   (Button)findViewById(R.id.btdagger);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +63,7 @@ public class MainActivity extends BaseActivity {
 
                         BaseEntry baseEntry = response.body();
                         System.out.println("baseEntry:"+baseEntry.getMessage());
+                        Toast.makeText(getApplication(),baseEntry.getMessage(),Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -170,6 +172,28 @@ public class MainActivity extends BaseActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
+
+        mButtondagger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<BaseEntry> call = UserService.getProjectInfoByDrgger();
+                call.enqueue(new Callback<BaseEntry>() {
+                    @Override
+                    public void onResponse(Call<BaseEntry> call, Response<BaseEntry> response) {
+
+                        BaseEntry baseEntry = response.body();
+                        System.out.println("baseEntryDreger:"+baseEntry.getMessage());
+                        Toast.makeText(getApplication(),baseEntry.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BaseEntry> call, Throwable t) {
+                        System.out.println("ThrowableDreger:"+t.getMessage());
+                    }
+                });
+            }
+        });
+
     }
 
 }

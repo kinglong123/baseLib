@@ -56,4 +56,12 @@
             android:id="@+id/btarg1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+
+    <Button
+            android:text="Hello dagger2 !"
+            android:id="@+id/btdagger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 </LinearLayout>
