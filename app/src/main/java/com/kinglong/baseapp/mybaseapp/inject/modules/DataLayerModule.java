@@ -2,6 +2,7 @@ package com.kinglong.baseapp.mybaseapp.inject.modules;
 
 import com.kinglong.baseapp.mybaseapp.data.util.StringConverterFactory;
 import com.kinglong.baseapp.mybaseapp.service.api.InterAppClientApi;
+import com.kinglong.baseapp.mybaseapp.service.api.InterAppRxClientApi;
 
 import android.content.Context;
 
@@ -18,6 +19,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -49,6 +51,22 @@ public class DataLayerModule {
                 .client(client)
                 .build();
         return mRetrofit.create(InterAppClientApi.class);
+
+    }
+
+    @Provides
+    @Singleton
+    public InterAppRxClientApi provideServiceRxClientApi(Context context,
+            OkHttpClient client) {
+
+        Retrofit mRetrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(StringConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+        return mRetrofit.create(InterAppRxClientApi.class);
 
     }
 

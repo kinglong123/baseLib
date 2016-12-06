@@ -1,7 +1,7 @@
 package com.kinglong.baseapp.mybaseapp.view.main;
 
-import com.kinglong.baseapp.mybaseapp.constant.BoundKey;
 import com.kinglong.baseapp.mybaseapp.R;
+import com.kinglong.baseapp.mybaseapp.constant.BoundKey;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntry;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
 import com.kinglong.baseapp.mybaseapp.data.model.UserInfo;
@@ -19,6 +19,10 @@ import android.widget.Toast;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by lanjl on 2016/12/3.
@@ -41,7 +45,7 @@ public class MainActivity extends BaseActivity {
     Button mButtonArg;
     Button mButtonArg1;
     Button mButtondagger;
-
+    Button mButtonRxjava;
     @Override
     protected void afterCreate(Bundle state) {
         mButton =   (Button)findViewById(R.id.bt);
@@ -51,6 +55,8 @@ public class MainActivity extends BaseActivity {
         mButtonArg=   (Button)findViewById(R.id.btarg);
         mButtonArg1=   (Button)findViewById(R.id.btarg1);
         mButtondagger=   (Button)findViewById(R.id.btdagger);
+        mButtonRxjava=   (Button)findViewById(R.id.btrxjava);
+
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,6 +197,35 @@ public class MainActivity extends BaseActivity {
                         System.out.println("ThrowableDreger:"+t.getMessage());
                     }
                 });
+            }
+        });
+
+
+
+
+        mButtonRxjava.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Observable<BaseEntry> observable = UserService.getStringRxApiByDrgger();
+
+                observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<BaseEntry>() {
+                            @Override
+                            public void call(BaseEntry baseEntry) {
+
+                                System.out.println("baseEntryDreger:"+baseEntry.getMessage());
+                                Toast.makeText(getApplication(),baseEntry.getMessage(),Toast.LENGTH_LONG).show();
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                System.out.println("baseEntryDreger:"+throwable.getMessage());
+                                Toast.makeText(getApplication(),throwable.getMessage(),Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+
             }
         });
 

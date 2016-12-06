@@ -12,6 +12,10 @@ public class CompomemtServiceManager {
     @Inject
     InterAppClientApi mClientApi;
 
+    @Inject
+    InterAppRxClientApi mRxClientApi;
+
+
     public CompomemtServiceManager() {
         ComponentHolder.getAppComponent().inject(this);
     }
@@ -19,6 +23,8 @@ public class CompomemtServiceManager {
     public InterAppClientApi getClientApi() {
         return mClientApi;
     }
-
+    public InterAppRxClientApi getRxClientApi() {
+        return mRxClientApi;
+    }
 
 }

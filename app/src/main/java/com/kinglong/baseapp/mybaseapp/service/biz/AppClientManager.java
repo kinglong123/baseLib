@@ -4,6 +4,7 @@ import com.kinglong.baseapp.mybaseapp.service.api.AppClient;
 import com.kinglong.baseapp.mybaseapp.service.api.CompomemtServiceManager;
 import com.kinglong.baseapp.mybaseapp.service.api.GitHubClient;
 import com.kinglong.baseapp.mybaseapp.service.api.InterAppClientApi;
+import com.kinglong.baseapp.mybaseapp.service.api.InterAppRxClientApi;
 import com.kinglong.baseapp.mybaseapp.service.api.InterGitHubClientApi;
 
 /**
@@ -32,4 +33,7 @@ public class AppClientManager {
         return new CompomemtServiceManager().getClientApi();
     }
 
+    protected static InterAppRxClientApi getRxApi() {
+        return new CompomemtServiceManager().getRxClientApi();
+    }
 }
