@@ -214,13 +214,13 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void call(BaseEntry baseEntry) {
 
-                                System.out.println("baseEntryDreger:"+baseEntry.getMessage());
+                                System.out.println("mButtonRxjava:"+baseEntry.getMessage());
                                 Toast.makeText(getApplication(),baseEntry.getMessage(),Toast.LENGTH_LONG).show();
                             }
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
-                                System.out.println("baseEntryDreger:"+throwable.getMessage());
+                                System.out.println("mButtonRxjava:"+throwable.getMessage());
                                 Toast.makeText(getApplication(),throwable.getMessage(),Toast.LENGTH_LONG).show();
 
                             }

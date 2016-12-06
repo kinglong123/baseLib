@@ -32,4 +32,11 @@ public abstract class BaseActivity extends HermesActivity {
         super.onPause();
         MobclickAgent.onPause(this);//统计分析
     }
+
+//    @Override
+//    protected <T> Observable<T> bindLifecycle(Observable<T> observable) {
+//        return super.bindLifecycle(observable)
+//                .subscribeOn(SchedulerFactory.getIoScheduler())
+//                .observeOn(AndroidSchedulers.mainThread());
+//    }
 }
