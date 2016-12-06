@@ -2,15 +2,19 @@ package com.baseapp.uiframework.view.base;
 
 import com.baseapp.uiframework.frame.base.util.PageManager;
 import com.kinglong.data.RestoreUtil;
+import com.trello.rxlifecycle.android.ActivityEvent;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+
+import rx.Observable;
+
 /**
  * Created by lanjl on 2016/12/2.
  */
 
-public abstract class HermesActivity extends AppCompatActivity{
+public abstract class HermesActivity extends RxAppCompatActivity {
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -75,4 +79,18 @@ public abstract class HermesActivity extends AppCompatActivity{
     public void onSave(Bundle outState) {
         RestoreUtil.saveState(outState, this);
     }
+
+
+    @SuppressWarnings("unchecked")
+    protected <T> Observable<T> bindLifecycle(Observable<T> observable) {
+        Observable.Transformer<? super T, ? extends T> transformer = getTransformer();
+        return observable.compose(transformer);
+    }
+
+    public <T> Observable.Transformer<? super T, ? extends T> getTransformer() {
+        return  bindUntilEvent(ActivityEvent.STOP);
+
+       // return bindToLifecycle();
+    }
+
 }

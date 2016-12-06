@@ -21,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -35,27 +36,43 @@ public class MainActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
+
     Button mButton;
+
     Button mButtonByJson;
+
     Button mButtonString;
 
     Button mButtonerr;
+
     Button mButtonNll;
 
     Button mButtonArg;
+
     Button mButtonArg1;
+
     Button mButtondagger;
+
     Button mButtonRxjava;
+
+    Button mButtonRxjavalife;
+
+    Button mButtonRxjavalife2;
+
     @Override
     protected void afterCreate(Bundle state) {
-        mButton =   (Button)findViewById(R.id.bt);
-        mButtonByJson=   (Button)findViewById(R.id.btjson);
-        mButtonString=   (Button)findViewById(R.id.btstring);
-        mButtonerr=   (Button)findViewById(R.id.bterr);
-        mButtonArg=   (Button)findViewById(R.id.btarg);
-        mButtonArg1=   (Button)findViewById(R.id.btarg1);
-        mButtondagger=   (Button)findViewById(R.id.btdagger);
-        mButtonRxjava=   (Button)findViewById(R.id.btrxjava);
+        mButton = (Button) findViewById(R.id.bt);
+        mButtonByJson = (Button) findViewById(R.id.btjson);
+        mButtonString = (Button) findViewById(R.id.btstring);
+        mButtonerr = (Button) findViewById(R.id.bterr);
+        mButtonArg = (Button) findViewById(R.id.btarg);
+        mButtonArg1 = (Button) findViewById(R.id.btarg1);
+        mButtondagger = (Button) findViewById(R.id.btdagger);
+        mButtonRxjava = (Button) findViewById(R.id.btrxjava);
+
+        mButtonRxjavalife = (Button) findViewById(R.id.btrxjavalife);
+        mButtonRxjavalife2 = (Button) findViewById(R.id.btrxjavalife2);
+
 
 
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -68,18 +85,18 @@ public class MainActivity extends BaseActivity {
                     public void onResponse(Call<BaseEntry> call, Response<BaseEntry> response) {
 
                         BaseEntry baseEntry = response.body();
-                        System.out.println("baseEntry:"+baseEntry.getMessage());
-                        Toast.makeText(getApplication(),baseEntry.getMessage(),Toast.LENGTH_LONG).show();
+                        System.out.println("baseEntry:" + baseEntry.getMessage());
+                        Toast.makeText(getApplication(), baseEntry.getMessage(), Toast.LENGTH_LONG)
+                                .show();
                     }
 
                     @Override
                     public void onFailure(Call<BaseEntry> call, Throwable t) {
-                        System.out.println("Throwable:"+t.getMessage());
+                        System.out.println("Throwable:" + t.getMessage());
                     }
                 });
             }
         });
-
 
         mButtonByJson.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,16 +104,18 @@ public class MainActivity extends BaseActivity {
                 Call<BaseEntryByJson> call = UserService.getProjectInfoBysjon();
                 call.enqueue(new Callback<BaseEntryByJson>() {
                     @Override
-                    public void onResponse(Call<BaseEntryByJson> call, Response<BaseEntryByJson> response) {
+                    public void onResponse(Call<BaseEntryByJson> call,
+                            Response<BaseEntryByJson> response) {
 
                         BaseEntryByJson baseEntry = response.body();
-                        System.out.println("baseEntry:"+baseEntry.getMessage());
-                        Toast.makeText(getApplication(),baseEntry.getMessage(),Toast.LENGTH_LONG).show();
+                        System.out.println("baseEntry:" + baseEntry.getMessage());
+                        Toast.makeText(getApplication(), baseEntry.getMessage(), Toast.LENGTH_LONG)
+                                .show();
                     }
 
                     @Override
                     public void onFailure(Call<BaseEntryByJson> call, Throwable t) {
-                        System.out.println("Throwable:"+t.getMessage());
+                        System.out.println("Throwable:" + t.getMessage());
                     }
                 });
 
@@ -106,23 +125,22 @@ public class MainActivity extends BaseActivity {
         mButtonString.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<String>  call =  UserService.getString();
+                Call<String> call = UserService.getString();
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
 
                         String baseEntry = response.body();
-                        System.out.println("baseEntry:"+baseEntry);
+                        System.out.println("baseEntry:" + baseEntry);
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        System.out.println("Throwable:"+t.getMessage());
+                        System.out.println("Throwable:" + t.getMessage());
                     }
                 });
             }
         });
-
 
         mButtonerr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,20 +206,18 @@ public class MainActivity extends BaseActivity {
                     public void onResponse(Call<BaseEntry> call, Response<BaseEntry> response) {
 
                         BaseEntry baseEntry = response.body();
-                        System.out.println("baseEntryDreger:"+baseEntry.getMessage());
-                        Toast.makeText(getApplication(),baseEntry.getMessage(),Toast.LENGTH_LONG).show();
+                        System.out.println("baseEntryDreger:" + baseEntry.getMessage());
+                        Toast.makeText(getApplication(), baseEntry.getMessage(), Toast.LENGTH_LONG)
+                                .show();
                     }
 
                     @Override
                     public void onFailure(Call<BaseEntry> call, Throwable t) {
-                        System.out.println("ThrowableDreger:"+t.getMessage());
+                        System.out.println("ThrowableDreger:" + t.getMessage());
                     }
                 });
             }
         });
-
-
-
 
         mButtonRxjava.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,17 +230,119 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void call(BaseEntry baseEntry) {
 
-                                System.out.println("mButtonRxjava:"+baseEntry.getMessage());
-                                Toast.makeText(getApplication(),baseEntry.getMessage(),Toast.LENGTH_LONG).show();
+                                System.out.println("mButtonRxjava:" + baseEntry.getMessage());
+                                Toast.makeText(getApplication(), baseEntry.getMessage(),
+                                        Toast.LENGTH_LONG).show();
                             }
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
-                                System.out.println("mButtonRxjava:"+throwable.getMessage());
-                                Toast.makeText(getApplication(),throwable.getMessage(),Toast.LENGTH_LONG).show();
+                                System.out.println("mButtonRxjava:" + throwable.getMessage());
+                                Toast.makeText(getApplication(), throwable.getMessage(),
+                                        Toast.LENGTH_LONG).show();
 
                             }
                         });
+
+
+            }
+        });
+
+        mButtonRxjavalife.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, RestoreTestActivity.class);
+                Bundle bundle = new Bundle();
+                UserInfo userInfo = new UserInfo();
+                userInfo.setAge(20);
+                userInfo.setName("king");
+
+                bundle.putSerializable(BoundKey.KEY_USER_INFO, userInfo);
+                intent.putExtras(bundle);
+                MainActivity.this.startActivity(intent);
+
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+                Observable<BaseEntry> observable = UserService.getStringRxApiByDrgger();
+
+                observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<BaseEntry>() {
+                            @Override
+                            public void call(BaseEntry baseEntry) {
+
+                                System.out
+                                        .println("mButtonRxjavalife:" + baseEntry.getMessage());
+                                Toast.makeText(MainActivity.this, baseEntry.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                System.out
+                                        .println("mButtonRxjavalife:" + throwable.getMessage());
+                                Toast.makeText(MainActivity.this, throwable.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+//                    }
+//                }, 1000);
+
+            }
+        });
+
+
+        mButtonRxjavalife2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, RestoreTestActivity.class);
+                Bundle bundle = new Bundle();
+                UserInfo userInfo = new UserInfo();
+                userInfo.setAge(20);
+                userInfo.setName("king");
+
+                bundle.putSerializable(BoundKey.KEY_USER_INFO, userInfo);
+                intent.putExtras(bundle);
+                MainActivity.this.startActivity(intent);
+
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+
+
+                bindLifecycle(UserService.getStringRxApiByDrgger()).doOnUnsubscribe(new Action0() {
+                    @Override
+                    public void call() {
+
+                        System.out
+                                .println("1111111mButtonRxjavalife2:doOnUnsubscribe" );
+                    }
+                })
+                        .subscribe(new Action1<BaseEntry>() {
+                            @Override
+                            public void call(BaseEntry baseEntry) {
+
+                                System.out
+                                        .println("11111111mButtonRxjavalife2:" + baseEntry.getMessage());
+                                Toast.makeText(MainActivity.this, baseEntry.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                System.out
+                                        .println("1111111mButtonRxjavalife:" + throwable.getMessage());
+                                Toast.makeText(MainActivity.this, throwable.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+//                    }
+//                }, 1000);
 
             }
         });

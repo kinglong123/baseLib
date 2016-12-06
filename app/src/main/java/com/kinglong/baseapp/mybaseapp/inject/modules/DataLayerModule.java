@@ -7,6 +7,7 @@ import com.kinglong.baseapp.mybaseapp.service.api.InterAppRxClientApi;
 import android.content.Context;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -96,7 +97,11 @@ public class DataLayerModule {
 
                         return chain.proceed(request);
                     }
-                }).build();
+                })
+                .readTimeout(5, TimeUnit.MINUTES)
+                .connectTimeout(5, TimeUnit.MINUTES)
+                .writeTimeout(5, TimeUnit.MINUTES)
+                .build();
 
     }
 

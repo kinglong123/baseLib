@@ -5,6 +5,7 @@ import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
 
 import retrofit2.Call;
 import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * Created by lanjl on 2016/12/3.
@@ -37,7 +38,17 @@ public class UserService extends AppClientManager {
 
 
     public static Observable<BaseEntry> getStringRxApiByDrgger()  {
-        return  getRxApi().getProjectInfo("100");
+        return  getRxApi().getProjectInfo("100").doOnNext(new Action1<BaseEntry>() {
+            @Override
+            public void call(BaseEntry baseEntry) {
+                try {
+                    System.out.println("11111doOnNext:getStringRxApiByDrgger");
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

@@ -6,6 +6,10 @@ import com.umeng.analytics.MobclickAgent;
 import android.os.Bundle;
 import android.view.View;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by lanjl on 2016/12/2.
  */
@@ -33,10 +37,10 @@ public abstract class BaseActivity extends HermesActivity {
         MobclickAgent.onPause(this);//统计分析
     }
 
-//    @Override
-//    protected <T> Observable<T> bindLifecycle(Observable<T> observable) {
-//        return super.bindLifecycle(observable)
-//                .subscribeOn(SchedulerFactory.getIoScheduler())
-//                .observeOn(AndroidSchedulers.mainThread());
-//    }
+    @Override
+    protected <T> Observable<T> bindLifecycle(Observable<T> observable) {
+        return super.bindLifecycle(observable)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

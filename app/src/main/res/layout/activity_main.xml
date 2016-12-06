@@ -71,4 +71,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+
+    <Button
+            android:text="Hello Rxjava life 不保留活动开启，分分分钟内存泄露!"
+            android:id="@+id/btrxjavalife"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    <Button
+            android:text="Hello Rxjava life 加入生命周期管理"
+            android:id="@+id/btrxjavalife2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 </LinearLayout>

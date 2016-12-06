@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by lanjl on 2016/12/2.
  */
@@ -36,5 +40,10 @@ public abstract class BaseFragment extends HermesFragment {
         }
         return null;
     }
-
+    @Override
+    protected <T> Observable<T> bindLifecycle(Observable<T> observable) {
+        return super.bindLifecycle(observable)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

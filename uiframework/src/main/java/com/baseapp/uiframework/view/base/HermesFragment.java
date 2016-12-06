@@ -1,10 +1,11 @@
 package com.baseapp.uiframework.view.base;
 
 import com.kinglong.data.RestoreUtil;
+import com.trello.rxlifecycle.android.FragmentEvent;
+import com.trello.rxlifecycle.components.support.RxFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
  * Created by lanjl on 2016/12/2.
  */
 
-public abstract class HermesFragment extends Fragment {
+public abstract class HermesFragment extends RxFragment {
     protected LayoutInflater mInflater;
     protected View           mRootView;
 
@@ -60,4 +61,15 @@ public abstract class HermesFragment extends Fragment {
     public void onSave(Bundle outState) {
         RestoreUtil.saveState(outState, this);
     }
+
+    @SuppressWarnings("unchecked")
+    protected <T> rx.Observable<T> bindLifecycle(rx.Observable<T> observable) {
+        rx.Observable.Transformer<? super T, ? extends T> transformer = getTransformer();
+        return observable.compose(transformer);
+    }
+
+    public <T> rx.Observable.Transformer<? super T, ? extends T> getTransformer() {
+        return  bindUntilEvent(FragmentEvent.STOP);
+    }
+
 }
