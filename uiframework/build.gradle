@@ -21,5 +21,10 @@ dependencies {
 
 // If you want pre-written Activities and Fragments you can subclass as providers
     compile 'com.trello:rxlifecycle-components:1.0'
+
+
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+
     compile project(':framework-data')
 }

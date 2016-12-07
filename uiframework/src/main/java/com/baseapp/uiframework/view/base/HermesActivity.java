@@ -5,6 +5,10 @@ import com.kinglong.data.RestoreUtil;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -20,6 +24,7 @@ public abstract class HermesActivity extends RxAppCompatActivity {
     protected final void onCreate(Bundle savedInstanceState) {
         preCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         PageManager.INSTANCE.addActivity(this);
         this.beforeCreate(savedInstanceState);
         onBaseCreate(savedInstanceState);
@@ -64,11 +69,7 @@ public abstract class HermesActivity extends RxAppCompatActivity {
 
     protected abstract void afterCreate(Bundle state);
 //    protected abstract void initInjector();
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-       // PageManager.INSTANCE.finishActivity(this);
-    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -93,4 +94,18 @@ public abstract class HermesActivity extends RxAppCompatActivity {
        // return bindToLifecycle();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //取消事件注册
+        EventBus.getDefault().unregister(this);
+        // PageManager.INSTANCE.finishActivity(this);
+    }
+
+    //在UI线程中执行
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEventMainThread(String messageEvent) {
+
+        System.out.println("在主线程中收到111"+Thread.currentThread().getName());
+    }
 }

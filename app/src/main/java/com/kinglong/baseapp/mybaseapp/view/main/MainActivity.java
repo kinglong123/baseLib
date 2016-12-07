@@ -4,11 +4,15 @@ import com.kinglong.baseapp.mybaseapp.R;
 import com.kinglong.baseapp.mybaseapp.constant.BoundKey;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntry;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
+import com.kinglong.baseapp.mybaseapp.data.model.MessageEvent;
 import com.kinglong.baseapp.mybaseapp.data.model.UserInfo;
 import com.kinglong.baseapp.mybaseapp.service.biz.UserService;
 import com.kinglong.baseapp.mybaseapp.view.Restore.RestoreTestActivity;
 import com.kinglong.baseapp.mybaseapp.view.Restore.RestoreTestActivity3;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -313,8 +318,10 @@ public class MainActivity extends BaseActivity {
 //                    @Override
 //                    public void run() {
 
+//                bindLifecycle(UserService.getStringRxApiByDrgger()).
 
-                bindLifecycle(UserService.getStringRxApiByDrgger()).doOnUnsubscribe(new Action0() {
+
+                Subscription s=  bindLifecycle(UserService.getStringRxApiByDrgger()).doOnUnsubscribe(new Action0() {
                     @Override
                     public void call() {
 
@@ -341,12 +348,22 @@ public class MainActivity extends BaseActivity {
 
                             }
                         });
+
+                s.unsubscribe();
+
+
 //                    }
 //                }, 1000);
 
             }
         });
 
+    }
+    //在UI线程中执行
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEventMainThread(MessageEvent messageEvent) {
+
+        System.out.println("MainActivity在主线程中收到"+Thread.currentThread().getName());
     }
 
 }

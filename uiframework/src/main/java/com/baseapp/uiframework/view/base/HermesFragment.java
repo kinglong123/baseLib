@@ -4,6 +4,10 @@ import com.kinglong.data.RestoreUtil;
 import com.trello.rxlifecycle.android.FragmentEvent;
 import com.trello.rxlifecycle.components.support.RxFragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,6 +21,13 @@ import android.view.ViewGroup;
 public abstract class HermesFragment extends RxFragment {
     protected LayoutInflater mInflater;
     protected View           mRootView;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Nullable
     @Override
@@ -71,5 +82,15 @@ public abstract class HermesFragment extends RxFragment {
     public <T> rx.Observable.Transformer<? super T, ? extends T> getTransformer() {
         return  bindUntilEvent(FragmentEvent.STOP);
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEventMainThread(String messageEvent) {
+
+        System.out.println("在主线程中收到2222"+Thread.currentThread().getName());
+    }
 }
