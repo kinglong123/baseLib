@@ -267,9 +267,6 @@ public class MainActivity extends BaseActivity {
                 intent.putExtras(bundle);
                 MainActivity.this.startActivity(intent);
 
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
                 Observable<BaseEntry> observable = UserService.getStringRxApiByDrgger();
 
                 observable.subscribeOn(Schedulers.io())
@@ -293,13 +290,11 @@ public class MainActivity extends BaseActivity {
 
                             }
                         });
-//                    }
-//                }, 1000);
 
             }
         });
 
-
+        //随便测试了eventbus
         mButtonRxjavalife2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -313,12 +308,6 @@ public class MainActivity extends BaseActivity {
                 bundle.putSerializable(BoundKey.KEY_USER_INFO, userInfo);
                 intent.putExtras(bundle);
                 MainActivity.this.startActivity(intent);
-
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-
-//                bindLifecycle(UserService.getStringRxApiByDrgger()).
 
 
                 Subscription s=  bindLifecycle(UserService.getStringRxApiByDrgger()).doOnUnsubscribe(new Action0() {
@@ -349,12 +338,7 @@ public class MainActivity extends BaseActivity {
                             }
                         });
 
-                s.unsubscribe();
-
-
-//                    }
-//                }, 1000);
-
+//                s.unsubscribe();
             }
         });
 

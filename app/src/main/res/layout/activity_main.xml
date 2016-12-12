@@ -17,20 +17,20 @@
             android:layout_height="wrap_content"/>
 
     <Button
-            android:text="Hello World!"
+            android:text="Hello World! GsonConverterFactory 解析"
             android:id="@+id/bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
     <Button
-            android:text="Hello btjson!"
+            android:text="Hello btjson! JacksonConverterFactory解析"
             android:id="@+id/btjson"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
 
     <Button
-            android:text="Hello String!"
+            android:text="Hello String 接口返回string!"
             android:id="@+id/btstring"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -80,9 +80,12 @@
 
 
     <Button
-            android:text="Hello Rxjava life 加入生命周期管理"
+            android:text="Hello Rxjava life 加入生命周期管理，但是在开代理的情况还是有问题？！"
             android:id="@+id/btrxjavalife2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+
+
 
 </LinearLayout>

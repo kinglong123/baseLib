@@ -1,1 +1,1 @@
-include ':app', ':uiframework', ':framework-data'
+include ':app', ':uiframework', ':framework-data', ':sqlbriteHelper'
