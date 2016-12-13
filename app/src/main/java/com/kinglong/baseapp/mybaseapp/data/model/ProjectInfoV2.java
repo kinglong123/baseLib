@@ -25,6 +25,12 @@ public class ProjectInfoV2 extends BaseModel implements Serializable {
     @PrimaryKey(autoincrement = true)
     long did;
 
+    @Column
+    String UserId;
+
+
+    @Column
+    String UserId2;
 
     @Column(name = "projectId")
      String projectId;
@@ -93,6 +99,22 @@ public class ProjectInfoV2 extends BaseModel implements Serializable {
     @Column
      boolean projectEnable;//课程是否显示学习人数
 
+    public String getUserId() {
+        return UserId;
+    }
+
+    public String getUserId2() {
+        return UserId2;
+    }
+
+    public void setUserId2(String userId2) {
+        UserId2 = userId2;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
     public boolean isProjectEnable() {
         return projectEnable;
     }
@@ -117,6 +139,13 @@ public class ProjectInfoV2 extends BaseModel implements Serializable {
         this.userProtocolUrl = userProtocolUrl;
     }
 
+//    public long getDid() {
+//        return did;
+//    }
+//
+//    public void setDid(long did) {
+//        this.did = did;
+//    }
 //    public void setModuleList(List<ProjectModuleV2> moduleList) {
 //        this.moduleList = moduleList;
 //    }

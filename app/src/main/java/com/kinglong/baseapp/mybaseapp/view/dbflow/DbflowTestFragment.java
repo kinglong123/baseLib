@@ -9,6 +9,7 @@ import com.kinglong.baseapp.mybaseapp.view.base.BaseFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import rx.functions.Action1;
@@ -20,6 +21,7 @@ import rx.functions.Action1;
 public class DbflowTestFragment extends BaseFragment {
 
     Button mButton;
+    TextView mTextView;
     public static DbflowTestFragment newInstance() {
         Bundle args = new Bundle();
         DbflowTestFragment fragment = new DbflowTestFragment();
@@ -37,10 +39,11 @@ public class DbflowTestFragment extends BaseFragment {
     @Override
     protected void afterCreate(Bundle state) {
         mButton = findViewCall(R.id.bt);
+        mTextView= findViewCall(R.id.tv);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bindLifecycle(GetProjectInfoStore.get().getProjectInfo()).subscribe(
+                bindLifecycle(GetProjectInfoStore.get().getProjectInfo("121")).subscribe(
                         new Action1<BaseEntryDb<ProjectInfoV2>>() {
                             @Override
                             public void call(BaseEntryDb<ProjectInfoV2> projectInfoV2BaseEntryDb) {
@@ -52,11 +55,18 @@ public class DbflowTestFragment extends BaseFragment {
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
-
+                                throwable.printStackTrace();
                             }
                         });
             }
         });
+
+        initLoader();
+
+    }
+
+    private void initLoader(){
+
 
     }
 }
