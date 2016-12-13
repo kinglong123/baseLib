@@ -2,6 +2,8 @@ package com.kinglong.baseapp.mybaseapp.service.api;
 
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntry;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
+import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryDb;
+import com.kinglong.baseapp.mybaseapp.data.model.ProjectInfoV2;
 
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -29,5 +31,10 @@ public interface InterAppRxClientApi {
     @POST("/")
     Observable<String> getStingTest();
 
+
+    @POST("/v1/{projectId}/app/getnewprojectinfo")
+    Observable<BaseEntryDb<ProjectInfoV2>> getProjectInfoDb(
+            @Path("projectId") String projectId
+    );
 
 }

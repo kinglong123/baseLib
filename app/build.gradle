@@ -1,5 +1,12 @@
 apply from: "${cacheConfigs}/gradle/application.gradle"
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
+
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-kapt'
+//apply plugin: 'kotlin-android-extensions'
+def dbflow_version = "4.0.0-beta3"
+
+
 android {
 //    compileSdkVersion 23
 //    buildToolsVersion "24.0.3"
@@ -20,6 +27,7 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
@@ -28,6 +36,9 @@ dependencies {
     compile libs.appcompat
     compile libs.supportV4
 
+    provided libs.javaxAnnotation
+    provided libs.supportAnnotation
+//    provided fileTree(dir: 'libs-v4', include: ['*.jar'])
 
     //okhttp
     compile 'com.squareup.okhttp:okhttp:2.4.0'
@@ -66,10 +77,10 @@ dependencies {
 
 
     //dagger2
-    apt 'com.google.dagger:dagger-compiler:2.2'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-    compile 'com.google.dagger:dagger:2.2'
-
+    annotationProcessor  'com.google.dagger:dagger-compiler:2.8'
+//    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.google.dagger:dagger:2.8'
+//    provided 'javax.annotation:jsr250-api:1.0'
    //eventbus
 
     compile 'org.greenrobot:eventbus:3.0.0'
@@ -87,8 +98,41 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1' // or 1.4-beta1
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1' // or 1.4-beta1
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1' // or
+
+
+//    compile project(':sqlbriteHelper')
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+//    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+//    compile ('com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:4.0.0-beta3@aar'){
+//        transitive = true
+//        changing = true
+//        exclude module: "support-v4"
+//        exclude module: 'android-support-v4'
+//        exclude module: "appcompat-v7"
+//    }
+
+
+//    compile "org.jetbrains.kotlin:kotlin-stdlib:1.0.5-2"
+//    compile 'org.jetbrains.anko:anko-support-v4:0.9'
+
 }
 
 task printlncacheConfigs << {
     println "${cacheConfigs}"
 }
+
+//kapt {
+//    generateStubs = true
+//}
+//buildscript {
+//    ext.kotlin_version = '1.0.5-2'
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//    }
+//}

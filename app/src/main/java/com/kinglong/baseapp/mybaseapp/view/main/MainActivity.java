@@ -10,6 +10,7 @@ import com.kinglong.baseapp.mybaseapp.service.biz.UserService;
 import com.kinglong.baseapp.mybaseapp.view.Restore.RestoreTestActivity;
 import com.kinglong.baseapp.mybaseapp.view.Restore.RestoreTestActivity3;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
+import com.kinglong.baseapp.mybaseapp.view.dbflow.DbflowTestActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -64,6 +65,8 @@ public class MainActivity extends BaseActivity {
 
     Button mButtonRxjavalife2;
 
+    Button mButtonDtdbflow;
+
     @Override
     protected void afterCreate(Bundle state) {
         mButton = (Button) findViewById(R.id.bt);
@@ -78,7 +81,7 @@ public class MainActivity extends BaseActivity {
         mButtonRxjavalife = (Button) findViewById(R.id.btrxjavalife);
         mButtonRxjavalife2 = (Button) findViewById(R.id.btrxjavalife2);
 
-
+        mButtonDtdbflow= (Button) findViewById(R.id.btdbflow);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,6 +342,15 @@ public class MainActivity extends BaseActivity {
                         });
 
 //                s.unsubscribe();
+            }
+        });
+
+        mButtonDtdbflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DbflowTestActivity.class);
+
+                MainActivity.this.startActivity(intent);
             }
         });
 

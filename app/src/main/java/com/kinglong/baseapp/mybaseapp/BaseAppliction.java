@@ -3,6 +3,8 @@ package com.kinglong.baseapp.mybaseapp;
 import com.kinglong.baseapp.mybaseapp.inject.component.ComponentHolder;
 import com.kinglong.baseapp.mybaseapp.inject.component.DaggerAppComponent;
 import com.kinglong.baseapp.mybaseapp.inject.modules.DataLayerModule;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.leakcanary.LeakCanary;
 
 import android.app.Application;
@@ -18,6 +20,7 @@ public class BaseAppliction extends Application {
         super.onCreate();
         LeakCanary.install(this);
         initComponent();
+        initDbFlow();
     }
 
     private void initComponent() {
@@ -25,6 +28,10 @@ public class BaseAppliction extends Application {
         ComponentHolder.setAppComponent(
                 DaggerAppComponent.builder().dataLayerModule(new DataLayerModule(this)).build()
         );
+    }
+
+    private void initDbFlow(){
+        FlowManager.init(new FlowConfig.Builder(this).build());
     }
 
 }
