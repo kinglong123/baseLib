@@ -17,6 +17,11 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"/>
 
+    <Button
+            android:id="@+id/btlist"
+            android:text="发送网络请求，用dbflow保存，保存列表"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
 

@@ -30,10 +30,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DataLayerModule {
 
     private Context mContext;
+//    http://test.api.yddx.huayu.nd
 
+//    protected static String URL = "http://dyapi.91open.com/";
 
-    protected static String URL = "http://dyapi.91open.com/";
-
+    protected static String URL = " http://test.api.yddx.huayu.nd";
     public DataLayerModule(Context context) {
         mContext = context.getApplicationContext();
     }
@@ -89,7 +90,7 @@ public class DataLayerModule {
                     public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request();
                         HttpUrl httpUrl = request.url().newBuilder()
-                                .addQueryParameter("token", "tokenValue")
+                                .addQueryParameter("accessToken", "a0772e4e3e594ef382611fc0fcea9ba5")
                                 .build();
 
                         request = request.newBuilder().header("User-Agent", "kinglong").url(httpUrl)

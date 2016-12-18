@@ -3,15 +3,16 @@ package com.kinglong.baseapp.mybaseapp.data.util;
 //import com.nd.hy.android.commons.util.Ln;
 //import com.nd.hy.android.elearning.specialtycourse.db.DbFlowDataBase;
 
-import com.kinglong.baseapp.mybaseapp.db.DbFlowDataBase;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.ConditionGroup;
 import com.raizlabs.android.dbflow.sql.language.SQLCondition;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.raizlabs.android.dbflow.sql.language.Where;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
+import com.raizlabs.android.dbflow.structure.ModelAdapter;
+import com.squareup.sqlbrite.BriteDatabase;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
  * @version 2016/12/12
  * @anthor lanjl
  */
-public class DbBaseModelDao<T extends BaseModel> {
+public class DbBaseBrite<T extends BaseModel> {
 
 
     public static final int MODE_REPLACE = 0x1;
@@ -32,23 +33,50 @@ public class DbBaseModelDao<T extends BaseModel> {
     public static final int MODE_MORE = 0x2;
 
     private Class<T> clazz;
+    private final ModelAdapter<T> mAdapter;
 
-    SQLCondition[] selectionArgs;
+    ConditionGroup mConditionGroup;
+    BriteDatabase mBriteDatabase;
 
-    public DbBaseModelDao(Class<T> clazz) {
-        this.clazz = clazz;
+    public void setBriteDatabase(BriteDatabase briteDatabase) {
+        mBriteDatabase = briteDatabase;
     }
 
-    public DbBaseModelDao(Class<T> clazz, SQLCondition[] selectionArgs) {
+
+    public DbBaseBrite(Class<T> clazz) {
         this.clazz = clazz;
-        this.selectionArgs = selectionArgs;
+        mAdapter = FlowManager.getModelAdapter(clazz);
     }
 
-    public DbBaseModelDao(Class<T> clazz, ConditionGroup conditions) {
+    public DbBaseBrite(Class<T> clazz, SQLCondition[] selectionArgs) {
         this.clazz = clazz;
-        selectionArgs = conditions.getConditions()
-                .toArray(new SQLCondition[conditions.size()]);
+        mConditionGroup= ConditionGroup.clause().andAll(selectionArgs);
+        mAdapter = FlowManager.getModelAdapter(clazz);
+
     }
+
+    public DbBaseBrite(Class<T> clazz, ConditionGroup conditions) {
+        this.clazz = clazz;
+        mConditionGroup = conditions;
+        mAdapter = FlowManager.getModelAdapter(clazz);
+    }
+
+    public static <T extends BaseModel> ContentValues createValues(T model) {
+        ContentValues values = new ContentValues();
+        model.getModelAdapter().bindToInsertValues(values, model);
+        return values;
+    }
+
+
+    static  <T extends BaseModel>  String getTableNameBase(Class<T> modelClass) {
+        ModelAdapter  adapter = FlowManager.getModelAdapter(modelClass);
+        String tableName = adapter.getTableName();
+        if (tableName.startsWith("`")) {
+            return tableName.substring(1, tableName.length() - 1);
+        }
+        return tableName;
+    }
+
 
     public final void updateList(List<T> data) {
         updateList(data, 0, 0);
@@ -58,23 +86,22 @@ public class DbBaseModelDao<T extends BaseModel> {
         if (data == null) {
             return;
         }
-        DatabaseWrapper database = FlowManager.getDatabase(DbFlowDataBase.class)
-                .getWritableDatabase();
-        database.beginTransaction();
+        BriteDatabase.Transaction transaction = mBriteDatabase.newTransaction();
         try {
             if (mode == MODE_MORE) {
                 for (T entry : data) {
-                    entry.save();
+                    mBriteDatabase.insert(getTableNameBase(clazz),createValues(entry));
                 }
             } else if (mode == MODE_REPLACE) {
-                doUpdateList(data, 0, 0);
+               doUpdateList(data, 0, 0);
+
             }
-            database.setTransactionSuccessful();
+            transaction.markSuccessful();
         } catch (Exception e) {
 //            Ln.d(e.getMessage());
             e.printStackTrace();
         } finally {
-            database.endTransaction();
+            transaction.end();
         }
 
     }
@@ -84,16 +111,15 @@ public class DbBaseModelDao<T extends BaseModel> {
      * @param offset 数据偏移量， size * curentpage 如第二页为 2 x size
      */
     public final void updateList(List<T> data, int limit, int offset) {
-        DatabaseWrapper database = FlowManager.getDatabase(DbFlowDataBase.class)
-                .getWritableDatabase();
-        database.beginTransaction();
+        BriteDatabase.Transaction transaction = mBriteDatabase.newTransaction();
+
         try {
             doUpdateList(data, limit, offset);
-            database.setTransactionSuccessful();
+            transaction.markSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            database.endTransaction();
+            transaction.end();
         }
     }
 
@@ -103,44 +129,42 @@ public class DbBaseModelDao<T extends BaseModel> {
 
     public final void update(final T data, int mode) {
 
-        DatabaseWrapper database = FlowManager.getDatabase(DbFlowDataBase.class)
-                .getWritableDatabase();
-        database.beginTransaction();
+
+        BriteDatabase.Transaction transaction = mBriteDatabase.newTransaction();
         try {
             if (mode == MODE_MORE) {
 
                 // saveModel(data);
-                data.save();
+//                data.save();
+                mBriteDatabase.insert(getTableNameBase(clazz),createValues(data));
             } else if (mode == MODE_REPLACE) {
                 doUpdate(data, 0, 0);
             }
-            database.setTransactionSuccessful();
+            transaction.markSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            database.endTransaction();
+            transaction.end();
         }
     }
 
     public final void update(T data, int limit, int offset) {
-        DatabaseWrapper database = FlowManager.getDatabase(DbFlowDataBase.class)
-                .getWritableDatabase();
-        database.beginTransaction();
+        BriteDatabase.Transaction transaction = mBriteDatabase.newTransaction();
         try {
             doUpdate(data, limit, offset);
-            database.setTransactionSuccessful();
+            transaction.markSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            database.endTransaction();
+            transaction.end();
         }
 
     }
 
     protected void doUpdate(T data, int limit, int offset) {
         Where<T> from;
-        if (selectionArgs != null) {
-            from = new Select().from(clazz).where(selectionArgs);
+        if (mConditionGroup != null) {
+            from = new Select().from(clazz).where(mConditionGroup);
         } else {
             from = new Select().from(clazz).where();
         }
@@ -148,12 +172,20 @@ public class DbBaseModelDao<T extends BaseModel> {
             from.limit(limit).offset(offset);
         }
         doUpdate(data, from);
+
+//        String sql = mConditionGroup.getQuery();
+//        if (limit > 0) {
+////            queryBuilder.appendQualifier("LIMIT", String.valueOf(limit));
+//            sql =sql   + " LIMIT "+String.valueOf(limit)+ " OFFSET "+String.valueOf(offset);
+//        }
+//
+//        mBriteDatabase.update(getTableNameBase(clazz),createValues(data),sql);
     }
 
     protected void doUpdateList(List<T> data, int limit, int offset) {
         Where<T> from;
-        if (selectionArgs != null) {
-            from = new Select().from(clazz).where(selectionArgs);
+        if (mConditionGroup != null) {
+            from = new Select().from(clazz).where(mConditionGroup);
         } else {
             from = new Select().from(clazz).where();
         }
@@ -161,7 +193,56 @@ public class DbBaseModelDao<T extends BaseModel> {
             from.limit(limit).offset(offset);
         }
         doUpdateList(data, from);
+
+      //  SELECT did FROM Message  ORDER BY did DESC LIMIT 3
+
+//        mBriteDatabase.createQuery()
+/*
+        String sql = mConditionGroup.getQuery();
+        if (limit > 0) {
+//            queryBuilder.appendQualifier("LIMIT", String.valueOf(limit));
+//            if(StringUtils.isNullOrEmpty(sql)){
+//                sql ="1==1";
+//            }
+//            sql = sql   + " limit "+String.valueOf(limit);
+
+
+        }
+
+         sql  = "DELETE FROM "
+                 + getTableNameBase(clazz)
+                 + " WHERE did IN "
+                 + "(SELECT did FROM "
+                 + getTableNameBase(clazz)
+                 + " LIMIT "
+                 + limit
+                 + ","
+                 + offset
+                 + ")";
+
+        sql  =  " did IN "
+                + "(SELECT did FROM "
+                + getTableNameBase(clazz)
+                + " LIMIT "
+                + limit
+                + ","
+                + offset
+                + ")";
+
+//        sql = " DELETE FROM Message where " +sql ;
+//        mBriteDatabase.delete()
+
+        mBriteDatabase.delete(getTableNameBase(clazz),sql);
+
+        mBriteDatabase.delete(getTableNameBase(clazz), mAdapter.getPrimaryConditionClause(model).getQuery());
+        for (T entry : data) {
+            mBriteDatabase.insert(getTableNameBase(clazz),createValues(entry));
+        }
+*/
+
     }
+
+
 
     protected void doUpdate(T data, Where<T> from) {
         if (from == null) {
@@ -169,22 +250,21 @@ public class DbBaseModelDao<T extends BaseModel> {
         }
         List<T> entries = from.queryList();
         if (entries != null && entries.size() > 0) {
-//            TransactionManager.getInstance().addTransaction(
-//                    new DeleteModelListTransaction<>(ProcessModelInfo.withModels(entries)));
-//            deleteModel(entries);
             for (T entry : entries) {
-                entry.delete();
+//                entry.delete();
+                mBriteDatabase.delete(getTableNameBase(clazz), mAdapter.getPrimaryConditionClause(entry).getQuery());
+
+//                mBriteDatabase.delete()
             }
         }
+//        mBriteDatabase.delete()
         if (data == null) {
             return;
         }
-//        TransactionManager.getInstance().addTransaction(
-//                new SaveModelTransaction<>(ProcessModelInfo.withModels(data)));
-//        saveModel(data);
-//        for (T entry : data) {
-        data.save();
-//        }
+        mBriteDatabase.insert(getTableNameBase(clazz),createValues(data));
+
+
+//        mBriteDatabase.update(getTableNameBase(clazz),createValues(data),mConditionGroup.getQuery());
 
     }
 
@@ -192,24 +272,33 @@ public class DbBaseModelDao<T extends BaseModel> {
         if (from == null) {
             return;
         }
+        if (from == null) {
+            return;
+        }
         List<T> entries = from.queryList();
         if (entries != null && entries.size() > 0) {
-//            TransactionManager.getInstance().addTransaction(
-//                    new DeleteModelListTransaction<>(ProcessModelInfo.withModels(entries)));
-//            deleteModel(entries);
             for (T entry : entries) {
-                entry.delete();
+//                entry.delete();
+//                entry.
+               // mBriteDatabase.delete(getTableNameBase(clazz),mConditionGroup.getQuery());
+                mBriteDatabase.delete(getTableNameBase(clazz), mAdapter.getPrimaryConditionClause(entry).getQuery());
             }
         }
         if (data == null) {
             return;
         }
-//        TransactionManager.getInstance().addTransaction(
-//                new SaveModelTransaction<>(ProcessModelInfo.withModels(data)));
-//        saveModel(data);
+
+//        if (limit > VALUE_UNSET) {
+//            queryBuilder.appendQualifier("LIMIT", String.valueOf(limit));
+//        }
+//        if (offset > VALUE_UNSET) {
+//            queryBuilder.appendQualifier("OFFSET", String.valueOf(offset));
+//        }
+//        mBriteDatabase.delete(getTableNameBase(clazz),mConditionGroup.getQuery());
         for (T entry : data) {
-            entry.save();
+            mBriteDatabase.insert(getTableNameBase(clazz),createValues(entry));
         }
+
     }
 
     public static <T extends BaseModel> List<T> listFromCursor(Cursor cursor,
@@ -222,9 +311,9 @@ public class DbBaseModelDao<T extends BaseModel> {
             try {
 //                T data = clazz.newInstance();
 
-                T data =  FlowManager.getModelAdapter(clazz).loadFromCursor(cursor);
-//                T data = FlowManager.getModelAdapter(clazz).getSingleModelLoader()
-//                        .convertToData(cursor, null);
+//                FlowManager.getModelAdapter(clazz).loadFromCursor()
+                T data = FlowManager.getModelAdapter(clazz).getSingleModelLoader()
+                        .convertToData(cursor, null);
                 result.add(data);
             } catch (Exception e) {
                 e.printStackTrace();

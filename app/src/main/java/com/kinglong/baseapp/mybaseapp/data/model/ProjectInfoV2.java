@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 @Table(database = DbFlowDataBase.class)
 public class ProjectInfoV2 extends BaseModel implements Serializable {
-
+    public static final String NAME = "ProjectInfoV2";
     @Column
     @PrimaryKey(autoincrement = true)
     long did;

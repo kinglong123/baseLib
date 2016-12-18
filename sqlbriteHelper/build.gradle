@@ -1,25 +1,24 @@
 apply from: "${cacheConfigs}/gradle/library.gradle"
 def dbflow_version = "4.0.0-beta3"
-//kapt {
-//    generateStubs = true
-//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile libs.appcompat
     compile libs.supportV4
 
-    // use kapt for kotlin apt if you're a Kotlin user
-//    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    provided libs.javaxAnnotation
+    provided libs.supportAnnotation
 
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
+
+
+    //dagger2
+    annotationProcessor  'com.google.dagger:dagger-compiler:2.8'
+//    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.google.dagger:dagger:2.8'
+    compile 'com.squareup.sqlbrite:sqlbrite:1.0.0'
 
 }
-//buildscript {
-//    ext.kotlin_version = '1.0.5-2'
-//    repositories {
-//        mavenCentral()
-//    }
-//    dependencies {
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-//    }
-//}
