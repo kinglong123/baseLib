@@ -16,9 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.Restore.RestoreTestActivity"/>
-        <activity android:name=".view.Restore.RestoreTestActivity2"/>
-        <activity android:name=".view.Restore.RestoreTestActivity3"/>
+        <activity android:name=".view.restore.RestoreTestActivity"/>
+        <activity android:name=".view.restore.RestoreTestActivity2"/>
+        <activity android:name=".view.restore.RestoreTestActivity3"/>
         <activity android:name=".view.dbflow.DbflowTestActivity"/>
 
         <meta-data

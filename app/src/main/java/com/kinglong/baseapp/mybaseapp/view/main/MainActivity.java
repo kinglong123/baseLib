@@ -7,8 +7,8 @@ import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
 import com.kinglong.baseapp.mybaseapp.data.model.MessageEvent;
 import com.kinglong.baseapp.mybaseapp.data.model.UserInfo;
 import com.kinglong.baseapp.mybaseapp.service.biz.UserService;
-import com.kinglong.baseapp.mybaseapp.view.Restore.RestoreTestActivity;
-import com.kinglong.baseapp.mybaseapp.view.Restore.RestoreTestActivity3;
+import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity;
+import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity3;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
 import com.kinglong.baseapp.mybaseapp.view.dbflow.DbflowTestActivity;
 

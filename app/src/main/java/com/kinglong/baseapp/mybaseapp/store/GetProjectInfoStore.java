@@ -7,6 +7,7 @@ import com.kinglong.baseapp.mybaseapp.data.model.ProjectInfoV2;
 import com.kinglong.baseapp.mybaseapp.data.model.ProjectInfoV2_Table;
 import com.kinglong.baseapp.mybaseapp.data.util.DbBaseBrite;
 import com.kinglong.baseapp.mybaseapp.service.biz.AppClientManager;
+import com.kinglong.baseapp.mybaseapp.view.base.util.EmptyDataException;
 import com.konglong.db.sqlbritehelper.module.init.SqlbriteHelper;
 import com.raizlabs.android.dbflow.sql.language.ConditionGroup;
 
@@ -34,6 +35,10 @@ public class GetProjectInfoStore extends AppClientManager {
               new Action1<BaseEntryDb<ProjectInfoV2>>() {
                   @Override
                   public void call(BaseEntryDb<ProjectInfoV2> projectInfoV2BaseEntryDb) {
+                      if(projectInfoV2BaseEntryDb ==null){
+                          throw  new EmptyDataException();
+                      }
+                      projectInfoV2BaseEntryDb.throwExceptionIfError();
 
 
 //                      ConditionGroup group =  ConditionGroup.clause().and(ProjectInfoV2_Table.UserId.eq(userId));
@@ -70,9 +75,14 @@ public class GetProjectInfoStore extends AppClientManager {
                 new Action1<BaseEntryDb<MessageInfo>>() {
                     @Override
                     public void call(BaseEntryDb<MessageInfo> messageInfoBaseEntryDb) {
+//                        messageInfoBaseEntryDb = null;
+                        if(messageInfoBaseEntryDb ==null){
+                            throw  new EmptyDataException();
+                        }
+                        messageInfoBaseEntryDb.throwExceptionIfError();
                         MessageInfo messageInfo =     messageInfoBaseEntryDb.getData();
                         List<Message>  messageList = messageInfo.getMessageList();
-                        if(messageList !=null){
+                        if(messageList != null){
                             for(Message message :messageList){
                                 message.setUid(userId);
                             }

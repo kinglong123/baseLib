@@ -2,6 +2,8 @@ package com.kinglong.baseapp.mybaseapp.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import com.kinglong.baseapp.mybaseapp.view.base.util.BizException;
+
 import java.io.Serializable;
 
 /**
@@ -55,5 +57,16 @@ public class BaseEntryDb<T> implements Serializable {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public boolean isError() {
+//        return code != 0 && !TextUtils.isEmpty(message);
+        return code != 0;
+    }
+
+    public void throwExceptionIfError() throws BizException {
+        if (isError()) {
+            throw new BizException(code, message);
+        }
     }
 }

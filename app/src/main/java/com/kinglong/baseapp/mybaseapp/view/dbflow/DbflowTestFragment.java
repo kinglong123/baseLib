@@ -10,6 +10,7 @@ import com.kinglong.baseapp.mybaseapp.data.model.ProjectInfoV2_Table;
 import com.kinglong.baseapp.mybaseapp.data.util.DbBaseModelDao;
 import com.kinglong.baseapp.mybaseapp.store.GetProjectInfoStore;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseFragment;
+import com.kinglong.baseapp.mybaseapp.view.base.util.Ln;
 import com.konglong.db.sqlbritehelper.module.init.SqlbriteHelper;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.squareup.sqlbrite.SqlBrite;
@@ -20,9 +21,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -62,7 +65,7 @@ public class DbflowTestFragment extends BaseFragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bindLifecycle(GetProjectInfoStore.get().getProjectInfo("121")).subscribe(
+                bindLifecycle(GetProjectInfoStore.get().getProjectInfo("1021")).subscribe(
                         new Action1<BaseEntryDb<ProjectInfoV2>>() {
                             @Override
                             public void call(BaseEntryDb<ProjectInfoV2> projectInfoV2BaseEntryDb) {
@@ -75,7 +78,17 @@ public class DbflowTestFragment extends BaseFragment {
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
-                                throwable.printStackTrace();
+                                if(throwable instanceof HttpException ){
+                                    Toast.makeText(getContext(),"接口返回错误",Toast.LENGTH_LONG).show();
+
+                                }else if(throwable instanceof UnknownHostException){
+
+                                    Toast.makeText(getContext(),"网络异常",Toast.LENGTH_LONG).show();
+                                }else {
+
+                                    Toast.makeText(getContext(), throwable.getMessage(),
+                                            Toast.LENGTH_LONG).show();
+                                }
                             }
                         });
             }
@@ -86,6 +99,7 @@ public class DbflowTestFragment extends BaseFragment {
         mButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Ln.d("MainActivity", "projectInfo is empty");
                 bindLifecycle(GetProjectInfoStore.get().getMessageList("121", 3, 3)).subscribe(
                         new Action1<BaseEntryDb<MessageInfo>>() {
                             @Override
@@ -95,11 +109,56 @@ public class DbflowTestFragment extends BaseFragment {
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
+//                                throwable.ge
 
+                                if(throwable instanceof HttpException ){
+
+                                    Ln.d("ddd:"+((HttpException)throwable).getMessage());
+                                    Ln.d("dddcode:"+((HttpException)throwable).code());
+                                    Toast.makeText(getContext(),((HttpException)throwable).getMessage(),Toast.LENGTH_LONG).show();
+
+                                }else if(throwable instanceof UnknownHostException){
+
+                                    Toast.makeText(getContext(),"请检查您的网络设置",Toast.LENGTH_LONG).show();
+                                }else {
+
+                                    Toast.makeText(getContext(), throwable.getMessage(),
+                                            Toast.LENGTH_LONG).show();
+                                }
                             }
                         });
             }
         });
+
+
+//        mButton1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Ln.d("MainActivity", "projectInfo is empty");
+//                bindLifecycle(GetProjectInfoStore.get().getMessageList("121", 3, 3)).subscribe(
+//                        new AbsAPICallback("ss","ss","ss") {
+//                            @Override
+//                            protected void onError(ApiException ex) {
+//
+//                            }
+//
+//                            @Override
+//                            protected void onPermissionError(ApiException ex) {
+//
+//                            }
+//
+//                            @Override
+//                            protected void onResultError(ApiException ex) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onNext(Object o) {
+//
+//                            }
+//                        });
+//            }
+//        });
 
         initLoader2();
 
