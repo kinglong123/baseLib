@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kinglong.baseapp.mybaseapp.view.base.util;
+package com.kinglong.commons.util;
 
 import android.util.Log;
 

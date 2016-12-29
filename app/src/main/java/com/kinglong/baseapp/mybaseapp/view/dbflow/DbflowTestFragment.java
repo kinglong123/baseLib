@@ -10,7 +10,7 @@ import com.kinglong.baseapp.mybaseapp.data.model.ProjectInfoV2_Table;
 import com.kinglong.baseapp.mybaseapp.data.util.DbBaseModelDao;
 import com.kinglong.baseapp.mybaseapp.store.GetProjectInfoStore;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseFragment;
-import com.kinglong.baseapp.mybaseapp.view.base.util.Ln;
+import com.kinglong.commons.util.Ln;
 import com.konglong.db.sqlbritehelper.module.init.SqlbriteHelper;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.squareup.sqlbrite.SqlBrite;

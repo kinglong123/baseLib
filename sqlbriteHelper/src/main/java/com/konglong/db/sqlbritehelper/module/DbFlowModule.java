@@ -1,5 +1,6 @@
 package com.konglong.db.sqlbritehelper.module;
 
+import com.kinglong.commons.util.Ln;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.structure.database.OpenHelper;
 import com.squareup.sqlbrite.BriteDatabase;
@@ -33,7 +34,8 @@ public class DbFlowModule {
             @Override
             public void log(String message) {
 //                Timber.tag("Database").v(message);
-                System.out.println(message);
+//                System.out.println(message);
+                Ln.d("Database",message);
             }
         });
     }
