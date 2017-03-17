@@ -69,7 +69,7 @@ public class RestoreTestFragment extends BaseFragment {
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), RestoreTestActivity2.class);
+                 Intent intent = new Intent(getContext(), RestoreTestActivity2.class);
                  getContext().startActivity(intent);
 
             }
