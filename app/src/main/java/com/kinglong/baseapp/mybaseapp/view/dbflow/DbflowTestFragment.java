@@ -77,7 +77,7 @@ public class DbflowTestFragment extends BaseFragment {
                             }
                         }, new Action1<Throwable>() {
                             @Override
-                            public void call(Throwable throwable) {
+                            public void call(Throwable throwable) {//401之类的都会在这里除了，不需要代码会直接到这里
                                 if(throwable instanceof HttpException ){
                                     Toast.makeText(getContext(),"接口返回错误",Toast.LENGTH_LONG).show();
 
