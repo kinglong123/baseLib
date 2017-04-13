@@ -85,7 +85,7 @@ dependencies {
 
     compile 'org.greenrobot:eventbus:3.0.0'
 
-
+    testCompile 'junit:junit:4.12'
 
     //友盟
 //    compile 'com.umeng.analytics:analytics:latest.integration'

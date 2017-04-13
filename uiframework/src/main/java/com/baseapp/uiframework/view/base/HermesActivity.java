@@ -89,7 +89,7 @@ public abstract class HermesActivity extends RxAppCompatActivity {
     }
 
     public <T> Observable.Transformer<? super T, ? extends T> getTransformer() {
-        return  bindUntilEvent(ActivityEvent.STOP);
+        return  bindUntilEvent(ActivityEvent.STOP);//这边用stop是否有问题呢？用DESTROY是否跟合理
 
        // return bindToLifecycle();
     }
