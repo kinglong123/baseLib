@@ -7,10 +7,11 @@ import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
 import com.kinglong.baseapp.mybaseapp.data.model.MessageEvent;
 import com.kinglong.baseapp.mybaseapp.data.model.UserInfo;
 import com.kinglong.baseapp.mybaseapp.service.biz.UserService;
-import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity;
-import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity3;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
 import com.kinglong.baseapp.mybaseapp.view.dbflow.DbflowTestActivity;
+import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity;
+import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity3;
+import com.kinglong.baseapp.mybaseapp.view.rxtest.RxTestActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -66,6 +67,8 @@ public class MainActivity extends BaseActivity {
     Button mButtonRxjavalife2;
 
     Button mButtonDtdbflow;
+    Button mButtonRxTest;
+
 
     @Override
     protected void afterCreate(Bundle state) {
@@ -82,6 +85,8 @@ public class MainActivity extends BaseActivity {
         mButtonRxjavalife2 = (Button) findViewById(R.id.btrxjavalife2);
 
         mButtonDtdbflow= (Button) findViewById(R.id.btdbflow);
+
+        mButtonRxTest= (Button) findViewById(R.id.rxtest);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -349,6 +354,15 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, DbflowTestActivity.class);
+
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+        mButtonRxTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RxTestActivity.class);
 
                 MainActivity.this.startActivity(intent);
             }

@@ -20,6 +20,8 @@
         <activity android:name=".view.restore.RestoreTestActivity2"/>
         <activity android:name=".view.restore.RestoreTestActivity3"/>
         <activity android:name=".view.dbflow.DbflowTestActivity"/>
+        <activity android:name=".view.rxtest.RxTestActivity"/>
+
 
         <meta-data
                 android:name="UMENG_APPKEY"
