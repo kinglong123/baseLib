@@ -12,7 +12,7 @@ android {
         versionCode pconf.androidVersionCode
         versionName pconf.androidVersionName
 //        renderscriptTargetApi 22
-        renderscriptSupportModeEnabled true
+//        renderscriptSupportModeEnabled true
     }
 
     packagingOptions {

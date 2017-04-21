@@ -28,3 +28,4 @@ dependencies {
 
     compile project(':framework-data')
 }
+apply from: "${cacheConfigs}/gradle/upload.gradle"

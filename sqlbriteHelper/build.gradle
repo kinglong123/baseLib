@@ -23,3 +23,4 @@ dependencies {
 
     compile project(':commons-utils')
 }
+apply from: "${cacheConfigs}/gradle/upload.gradle"

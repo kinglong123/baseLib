@@ -21,9 +21,16 @@ buildscript {
 
 allprojects {
 
+    group = POM_GROUP_ID
+    version = POM_VERSION
+
     repositories {
         jcenter()
         maven { url "https://www.jitpack.io" }
+        maven {
+            name 'nd nexus android-public'
+            url "http://nexus.sdp.nd/nexus/content/groups/android-public/"
+        }
     }
 //    println project.group + " " + project.name + " v" + project.version
 

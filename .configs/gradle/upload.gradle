@@ -12,15 +12,38 @@ uploadArchives {
             if (deployName == null) {
                 deployName = this.name
             }
+//            configurePOM(pom)
             repository(url: "${conf.deployReleaseUrl}") {
                 authentication(userName: "${conf.nexusUsername}", password: "${conf.nexusPassword}")
             }
             snapshotRepository(url: "${conf.deploySnapshotUrl}") {
                 authentication(userName: "${conf.nexusUsername}", password: "${conf.nexusPassword}")
             }
-            pom.version = "${this.version}"
-            pom.groupId = "${this.group}"
-            pom.artifactId = "${deployName}"
+            pom.version = POM_VERSION
+            pom.groupId = POM_GROUP_ID
+
+//            println "${this.group}"
+//            println "${deployName}"
+//            pom.description="xxxxxxxxx"
+            pom.artifactId = POM_ARTIFACT_ID
+
+            pom.project {
+                name POM_NAME
+                packaging POM_PACKAGING
+                description POM_DESCRIPTION
+            }
         }
+    }
+
+}
+
+private configurePOM(def pom) {
+    pom.project {
+        groupId POM_GROUP_ID
+        artifactId POM_ARTIFACT_ID
+        version POM_VERSION
+        name POM_NAME
+        packaging POM_PACKAGING
+        description POM_DESCRIPTION
     }
 }
