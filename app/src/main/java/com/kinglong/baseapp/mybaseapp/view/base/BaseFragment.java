@@ -40,10 +40,21 @@ public abstract class BaseFragment extends HermesFragment {
         }
         return null;
     }
-    @Override
-    protected <T> Observable<T> bindLifecycle(Observable<T> observable) {
-        return super.bindLifecycle(observable)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+//    @Override
+//    protected <T> Observable<T> bindLifecycle(Observable<T> observable) {
+//        return super.bindLifecycle(observable)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread());
+//    }
+
+
+    protected  <T> Observable.Transformer<T, T> applySchedulers() {
+        return new Observable.Transformer<T, T>() {
+            @Override
+            public Observable<T> call(Observable<T> observable) {
+                return bindLifecycle(observable).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
     }
 }

@@ -65,7 +65,10 @@ public class DbflowTestFragment extends BaseFragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bindLifecycle(GetProjectInfoStore.get().getProjectInfo("1021")).subscribe(
+
+                        GetProjectInfoStore.get().getProjectInfo("1021")
+                        .compose(applySchedulers())
+                        .subscribe(
                         new Action1<BaseEntryDb<ProjectInfoV2>>() {
                             @Override
                             public void call(BaseEntryDb<ProjectInfoV2> projectInfoV2BaseEntryDb) {
@@ -100,7 +103,9 @@ public class DbflowTestFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Ln.d("MainActivity", "projectInfo is empty");
-                bindLifecycle(GetProjectInfoStore.get().getMessageList("121", 3, 3)).subscribe(
+                GetProjectInfoStore.get().getMessageList("121", 3, 3)
+                        .compose(applySchedulers())
+                        .subscribe(
                         new Action1<BaseEntryDb<MessageInfo>>() {
                             @Override
                             public void call(BaseEntryDb<MessageInfo> messageInfoBaseEntryDb) {
