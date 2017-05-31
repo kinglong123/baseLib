@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -27,6 +28,7 @@ public abstract class BaseFragment extends HermesFragment {
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         mRootView = inflater.inflate(getLayoutId(), null);
+        ButterKnife.inject(this, mRootView);
         return mRootView;
     }
 

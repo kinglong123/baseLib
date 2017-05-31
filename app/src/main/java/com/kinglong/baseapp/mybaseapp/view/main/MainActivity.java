@@ -6,6 +6,7 @@ import com.kinglong.baseapp.mybaseapp.data.model.BaseEntry;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
 import com.kinglong.baseapp.mybaseapp.data.model.MessageEvent;
 import com.kinglong.baseapp.mybaseapp.data.model.UserInfo;
+import com.kinglong.baseapp.mybaseapp.nativevideo.NativeVideoActivity;
 import com.kinglong.baseapp.mybaseapp.service.biz.UserService;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
 import com.kinglong.baseapp.mybaseapp.view.dbflow.DbflowTestActivity;
@@ -69,7 +70,7 @@ public class MainActivity extends BaseActivity {
     Button mButtonDtdbflow;
     Button mButtonRxTest;
 
-
+    Button mBnavtivevideo;
     @Override
     protected void afterCreate(Bundle state) {
         mButton = (Button) findViewById(R.id.bt);
@@ -87,6 +88,8 @@ public class MainActivity extends BaseActivity {
         mButtonDtdbflow= (Button) findViewById(R.id.btdbflow);
 
         mButtonRxTest= (Button) findViewById(R.id.rxtest);
+
+        mBnavtivevideo= (Button) findViewById(R.id.navtivevideo);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,6 +371,15 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+
+        mBnavtivevideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NativeVideoActivity.class);
+
+                MainActivity.this.startActivity(intent);
+            }
+        });
     }
     //在UI线程中执行
     @Subscribe(threadMode = ThreadMode.MAIN)

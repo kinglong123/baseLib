@@ -19,20 +19,20 @@
                 android:text="Hello World! GsonConverterFactory 解析"
                 android:id="@+id/bt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
         <Button
                 android:text="Hello btjson! JacksonConverterFactory解析"
                 android:id="@+id/btjson"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
 
         <Button
                 android:text="Hello String 接口返回string!"
                 android:id="@+id/btstring"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
 
 
@@ -42,60 +42,66 @@
                 android:text="Hello 测试友盟错误上报!"
                 android:id="@+id/bterr"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
 
         <Button
                 android:text="Hello 参数传递 Restore!"
                 android:id="@+id/btarg"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
         <Button
                 android:text="Hello 参数传递 !"
                 android:id="@+id/btarg1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
 
         <Button
                 android:text="Hello dagger2 !"
                 android:id="@+id/btdagger"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
 
         <Button
                 android:text="Hello Rxjava!"
                 android:id="@+id/btrxjava"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
 
         <Button
                 android:text="Hello Rxjava life 不保留活动开启，分分分钟内存泄露!"
                 android:id="@+id/btrxjavalife"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
 
         <Button
                 android:text="Hello Rxjava life 加入生命周期管理，但是在开代理的情况还是有问题？！"
                 android:id="@+id/btrxjavalife2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
 
         <Button
                 android:text="Hello Dbflow测试"
                 android:id="@+id/btdbflow"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
 
         <Button
                 android:text="Rx方法测试页面"
                 android:id="@+id/rxtest"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="40dp"/>
+
+        <Button
+                android:text="原生视频播放"
+                android:id="@+id/navtivevideo"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
     </LinearLayout>
 
 

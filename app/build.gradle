@@ -103,6 +103,9 @@ dependencies {
     compile project(':sqlbriteHelper')
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
 
+
+    compile 'com.jakewharton:butterknife:6.0.0'
+
 }
 
 task printlncacheConfigs << {
