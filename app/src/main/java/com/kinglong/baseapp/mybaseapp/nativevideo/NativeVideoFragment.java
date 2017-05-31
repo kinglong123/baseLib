@@ -86,6 +86,28 @@ public class NativeVideoFragment extends BaseFragment {
 //       },500) ;
 
 
+//        new Handler().post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mediaController.show();
+//            }
+//        });
+
+
+        mediaController.post(new Runnable() {
+            @Override
+            public void run() {
+                mediaController.show();
+            }
+        });
+
+
+//        mVvVideoview.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mediaController.show();
+//            }
+//        });
 
 //        mediaController.setMediaPlayer(mVvVideoview); 多余的，可以不设置
     }
