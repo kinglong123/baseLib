@@ -43,4 +43,9 @@ public abstract class BaseActivity extends HermesActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public interface DispatchFragment {
+        public boolean handlerBackPressed();
+    }
+
 }

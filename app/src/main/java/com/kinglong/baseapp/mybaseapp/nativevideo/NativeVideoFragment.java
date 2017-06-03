@@ -44,8 +44,8 @@ public class NativeVideoFragment extends BaseFragment {
     @InjectView(R.id.vv_videoview)
     VideoView mVvVideoview;
 
-    private static String ApkPath = Environment
-            .getExternalStorageDirectory().toString() + File.separator + "ansen.mp4";
+    private static String playPath = Environment
+            .getExternalStorageDirectory().toString() + File.separator + "guanghui.mp4";
     public static NativeVideoFragment newInstance(){
         NativeVideoFragment nativeVideoFragment = new NativeVideoFragment();
         return nativeVideoFragment;
@@ -75,7 +75,7 @@ public class NativeVideoFragment extends BaseFragment {
             }
         });
         MediaController mediaController = new MediaController(getActivity());
-        mVvVideoview.setVideoPath(ApkPath);
+        mVvVideoview.setVideoPath(playPath);
         mVvVideoview.setMediaController(mediaController);
 //        mediaController.show();
 //       new Handler().postDelayed(new Runnable() {

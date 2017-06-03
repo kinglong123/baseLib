@@ -23,6 +23,11 @@
         <activity android:name=".view.rxtest.RxTestActivity"/>
 
         <activity android:name=".nativevideo.NativeVideoActivity"/>
+        <activity android:name=".nativevideo.NativeVideoByConActivity"
+                  android:screenOrientation="sensorPortrait"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                  android:windowSoftInputMode="adjustPan"/>
+
 
 
 
