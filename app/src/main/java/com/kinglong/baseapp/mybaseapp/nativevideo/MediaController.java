@@ -4,6 +4,8 @@ import com.kinglong.baseapp.mybaseapp.R;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -14,8 +16,6 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static com.kinglong.baseapp.mybaseapp.R.id.seekBar;
 
 /**
  * Created by lanjl on 2017/5/31.
@@ -52,6 +52,7 @@ public class MediaController extends FrameLayout implements View.OnClickListener
         initView(context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public MediaController(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView(context);
@@ -158,6 +159,17 @@ public class MediaController extends FrameLayout implements View.OnClickListener
         DateFormat formatter = new SimpleDateFormat("mm:ss");
         return formatter.format(new Date(time));
     }
+
+
+    public void playFinish(int allTime) {
+        mProgressSeekBar.setProgress(0);
+        setPlayProgressTxt(0, allTime);
+        setPlayState(PlayState.PAUSE);
+    }
+
+
+
+
     /**
      * 播放状态 播放 暂停
      */

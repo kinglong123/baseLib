@@ -108,6 +108,13 @@
                 android:id="@+id/navtivevideocontorl"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"/>
+
+        <Button
+                android:text="原生视频播放supervideo封装"
+                android:id="@+id/navtivevideowidget"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+
     </LinearLayout>
 
 

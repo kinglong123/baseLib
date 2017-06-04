@@ -28,6 +28,10 @@
                   android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
                   android:windowSoftInputMode="adjustPan"/>
 
+        <activity android:name=".nativevideo.NativeVideoByWidgetActivity"
+                  android:screenOrientation="sensorPortrait"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                  android:windowSoftInputMode="adjustPan"/>
 
 
 

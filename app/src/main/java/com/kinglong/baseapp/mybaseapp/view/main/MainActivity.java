@@ -8,6 +8,7 @@ import com.kinglong.baseapp.mybaseapp.data.model.MessageEvent;
 import com.kinglong.baseapp.mybaseapp.data.model.UserInfo;
 import com.kinglong.baseapp.mybaseapp.nativevideo.NativeVideoActivity;
 import com.kinglong.baseapp.mybaseapp.nativevideo.NativeVideoByConActivity;
+import com.kinglong.baseapp.mybaseapp.nativevideo.NativeVideoByWidgetActivity;
 import com.kinglong.baseapp.mybaseapp.service.biz.UserService;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
 import com.kinglong.baseapp.mybaseapp.view.dbflow.DbflowTestActivity;
@@ -74,6 +75,8 @@ public class MainActivity extends BaseActivity {
     Button mBnavtivevideo;
 
     Button mBnavtivevideocontorl;
+
+    Button mBnavtivevideowidget;
     @Override
     protected void afterCreate(Bundle state) {
         mButton = (Button) findViewById(R.id.bt);
@@ -94,6 +97,8 @@ public class MainActivity extends BaseActivity {
 
         mBnavtivevideo= (Button) findViewById(R.id.navtivevideo);
         mBnavtivevideocontorl= (Button) findViewById(R.id.navtivevideocontorl);
+
+        mBnavtivevideowidget = (Button) findViewById(R.id.navtivevideowidget);
 
 
 
@@ -392,6 +397,16 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, NativeVideoByConActivity.class);
+
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+
+        mBnavtivevideowidget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NativeVideoByWidgetActivity.class);
 
                 MainActivity.this.startActivity(intent);
             }

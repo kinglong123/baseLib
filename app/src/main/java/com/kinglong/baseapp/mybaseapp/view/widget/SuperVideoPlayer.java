@@ -1,89 +1,94 @@
-package com.kinglong.baseapp.mybaseapp.nativevideo;
+package com.kinglong.baseapp.mybaseapp.view.widget;
 
 import com.kinglong.baseapp.mybaseapp.R;
-import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
-import com.kinglong.baseapp.mybaseapp.view.base.BaseFragment;
-import com.kinglong.baseapp.mybaseapp.view.base.util.DensityUtil;
-import com.kinglong.baseapp.mybaseapp.view.widget.SuperVideoView;
-import com.kinglong.data.Restore;
+import com.kinglong.baseapp.mybaseapp.nativevideo.MediaController;
 
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
+import android.content.Context;
 import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.Environment;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.InjectView;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
 /**
- * Created by lanjl on 2017/5/30.
+ * Created by lanjl on 2017/6/4.
  */
 
-public class NativeVideoByContorlFragment extends BaseFragment implements
-        BaseActivity.DispatchFragment {
+public class SuperVideoPlayer extends RelativeLayout {
 
-    private final int MSG_HIDE_CONTROLLER = 10;//控制栏的显示与隐藏
 
-    private final int MSG_UPDATE_PLAY_TIME = 11;//更新播放时间
 
-    private static String playPath = Environment
-            .getExternalStorageDirectory().toString() + File.separator + "guanghui.mp4";
 
+    private final int MSG_HIDE_CONTROLLER = 10;
+    private final int MSG_UPDATE_PLAY_TIME = 11;
+    private final int MSG_PLAY_ON_TV_RESULT = 12;
+    private final int MSG_EXIT_FORM_TV_RESULT = 13;
     private MediaController.PageType mCurrPageType = MediaController.PageType.SHRINK;//当前是横屏还是竖屏
 
-    @InjectView(R.id.video_view)
-    SuperVideoView mSuperVideoView;
-
-    @InjectView(R.id.controller)
-    MediaController mMediaController;
-
-    @InjectView(R.id.rl_play)
-    RelativeLayout mRelativeLayout;
+    private Context mContext;
+    private SuperVideoView mSuperVideoView;
+    private MediaController mMediaController;
+    private Timer mUpdateTimer;
 
 
-    public static NativeVideoByContorlFragment newInstance() {
-        NativeVideoByContorlFragment nativeVideoFragment = new NativeVideoByContorlFragment();
-        return nativeVideoFragment;
+    VideoPlayCallbackImpl mVideoPlayCallback;
+
+
+    public SuperVideoPlayer(Context context, AttributeSet attrs,
+            int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initView(context);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public SuperVideoPlayer(Context context, AttributeSet attrs, int defStyleAttr,
+            int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        initView(context);
+    }
+
+    public SuperVideoPlayer(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView(context);
+    }
+
+    public SuperVideoPlayer(Context context) {
+        super(context);
+        initView(context);
     }
 
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.video_main;
-    }
+    private void initView(Context context) {
+        mContext = context;
+        View view =View.inflate(context, R.layout.video_player, this);
 
-    @Override
-    protected void afterCreate(Bundle state) {
+        mSuperVideoView = (SuperVideoView) view.findViewById(R.id.video_view1);
+        mMediaController = (MediaController)  view.findViewById(R.id.controller);
+        mMediaController.setMediaControl(mMediaControl);
+        mSuperVideoView.setOnTouchListener(mOnTouchVideoListener);
 
-        bindView();
-        initData();
-        loadAndPlay(playPath, 0);
-
-    }
-
-
-    private void initData() {
 
     }
 
+    public void setVideoPlayCallback(VideoPlayCallbackImpl videoPlayCallback) {
+        mVideoPlayCallback = videoPlayCallback;
+    }
 
-    private void loadAndPlay(String palyPath, int seekTime) {
+
+
+
+
+    public void loadAndPlay(String palyPath, int seekTime) {
 
         if (TextUtils.isEmpty(palyPath)) {
             Log.e("TAG", "palyPath should not be null");
@@ -96,9 +101,6 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
         mSuperVideoView.setVisibility(VISIBLE);
         startPlayVideo(seekTime);
     }
-
-    private Timer mUpdateTimer;
-
     /**
      * 播放视频
      * should called after setVideoPath()
@@ -123,7 +125,8 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
             stopUpdateTimer();
             stopHideTimer(true);
             mMediaController.playFinish(mSuperVideoView.getDuration());
-            Toast.makeText(getActivity(), "视频播放完成", Toast.LENGTH_SHORT).show();
+            mVideoPlayCallback.onPlayFinish();
+            Toast.makeText(mContext, "视频播放完成", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -152,12 +155,11 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
         }
     };
 
-    private void bindView() {
-        mMediaController.setMediaControl(mMediaControl);
-        mSuperVideoView.setOnTouchListener(mOnTouchVideoListener);
-    }
 
-    private View.OnTouchListener mOnTouchVideoListener = new View.OnTouchListener() {
+
+
+
+    private View.OnTouchListener mOnTouchVideoListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -166,20 +168,6 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
             return mCurrPageType == MediaController.PageType.EXPAND;
         }
     };
-
-    /***
-     *
-     */
-    private void showOrHideController() {
-
-        if (mMediaController.getVisibility() == VISIBLE) {
-            mMediaController.setVisibility(GONE);
-        } else {
-            mMediaController.setVisibility(VISIBLE);
-
-        }
-    }
-
 
     private MediaController.MediaControlImpl mMediaControl
             = new MediaController.MediaControlImpl() {
@@ -196,7 +184,9 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
 
         @Override
         public void onPageTurn() {
-            onSwitchPageType();
+//            onSwitchPageType();
+
+            mVideoPlayCallback.onSwitchPageType();
         }
 
         @Override
@@ -232,7 +222,7 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
 
         @Override
         public void closePlay() {
-            closePlayer();
+            mVideoPlayCallback.onCloseVideo();
         }
     };
 
@@ -260,6 +250,7 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
         resetUpdateTimer();
     }
 
+
     /***
      * 继续播放
      */
@@ -276,6 +267,7 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
         resetHideTimer();//继续播放后恢复，控制栏的自动隐藏
         resetUpdateTimer();
     }
+
     /***
      * 设置进度
      */
@@ -285,6 +277,21 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
             mSuperVideoView.seekTo(index);
         }
     }
+
+
+    /***
+     *
+     */
+    private void showOrHideController() {
+
+        if (mMediaController.getVisibility() == VISIBLE) {
+            mMediaController.setVisibility(GONE);
+        } else {
+            mMediaController.setVisibility(VISIBLE);
+
+        }
+    }
+
 
 
     /**
@@ -300,6 +307,10 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
         }
         mMediaController.setPlayProgressTxt(playTime, allTime);
     }
+
+
+
+
 
 
     private Handler mHandler = new Handler(new Handler.Callback() {
@@ -374,7 +385,6 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
 
     private void stopHideTimer(boolean isShowController) {//暂停的时候，控制栏一直可见
         mHandler.removeMessages(MSG_HIDE_CONTROLLER);//把这个隐藏消息给删除
-//        mMediaController.clearAnimation();
         mMediaController.setVisibility(isShowController ? View.VISIBLE : GONE);
     }
 
@@ -390,31 +400,17 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
         mSuperVideoView.stopPlayback();
         mSuperVideoView.setVisibility(GONE);
         mHandler.removeCallbacksAndMessages(null);
-        curIndex = 0;
-        isPlaying = false;
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (isPlaying) {
-            goOnPlayByPrpgess(curIndex);
-        }else{
-            setPrpgess(curIndex);
-        }
 
     }
+    public void setPageType(MediaController.PageType pageType) {
+        mMediaController.setPageType(pageType);
+        mCurrPageType = pageType;
+    }
 
-    @Restore
-    boolean isPlaying;
-
-    @Restore
+    boolean isPlaying =false;
     int curIndex;
-
-    @Override
     public void onPause() {
-        super.onPause();
+
         if (mSuperVideoView.isPlaying()) {
             isPlaying = true;
             pausePlay(true);
@@ -425,73 +421,31 @@ public class NativeVideoByContorlFragment extends BaseFragment implements
         mHandler.removeCallbacksAndMessages(null);
         curIndex = mSuperVideoView.getCurrentPosition();
         System.out.println("curIndex111111:"+curIndex);
-
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onResume() {
+        if (isPlaying) {
+            goOnPlayByPrpgess(curIndex);
+        }else{
+            setPrpgess(curIndex);
+        }
+
+    }
+    public void  onDestroy(){
         closePlayer();
+    }
 
+
+    public interface VideoPlayCallbackImpl {
+        void onCloseVideo();
+
+        void onSwitchPageType();
+
+        void onPlayFinish();
     }
 
 
 
-    /***
-     * 旋转屏幕之后回调
-     *
-     * @param newConfig newConfig
-     */
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (null == mSuperVideoView) return;
-        /***
-         * 根据屏幕方向重新设置播放器的大小
-         */
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getActivity().getWindow().getDecorView().invalidate();
-            float height = DensityUtil.getWidthInPx(getContext());
-            float width = DensityUtil.getHeightInPx(getContext());
-            mRelativeLayout.getLayoutParams().height = (int) width;
-            mRelativeLayout.getLayoutParams().width = (int) height;
-        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            final WindowManager.LayoutParams attrs = getActivity().getWindow().getAttributes();
-            attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getActivity().getWindow().setAttributes(attrs);
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            float width = DensityUtil.getWidthInPx(getContext());
-            float height = DensityUtil.dip2px(getContext(), 220.f);
-            mRelativeLayout.getLayoutParams().height = (int) height;
-            mRelativeLayout.getLayoutParams().width = (int) width;
-        }
-    }
-    public void onSwitchPageType() {
-        if (getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            setPageType(MediaController.PageType.SHRINK);
-        } else {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            setPageType(MediaController.PageType.EXPAND);
-        }
-    }
 
 
-    @Override
-    public boolean handlerBackPressed() {
-        if (getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            setPageType(MediaController.PageType.SHRINK);
-            return true;
-        }
-        return false;
-    }
-
-
-    public void setPageType(MediaController.PageType pageType) {
-        mMediaController.setPageType(pageType);
-        mCurrPageType = pageType;
-    }
 }
