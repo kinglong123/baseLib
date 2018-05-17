@@ -4,8 +4,11 @@ import com.kinglong.baseapp.mybaseapp.R;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseFragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -23,6 +26,8 @@ public class RxTestFragment extends BaseFragment {
     Button mButton;
     Button mButtonmergeDelayError;
     Button mButtonmergezip;
+    Button mButtonmergetime;
+    Button mButtonmergetime2;
 
 
     public static  RxTestFragment newInstance(){
@@ -32,7 +37,7 @@ public class RxTestFragment extends BaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
+    boolean isVis =true;
     @Override
     protected int getLayoutId() {
         return R.layout.rxtest;
@@ -43,6 +48,8 @@ public class RxTestFragment extends BaseFragment {
         mButton = findViewCall(R.id.btmerge);
         mButtonmergeDelayError = findViewCall(R.id.mergeDelayError);
         mButtonmergezip = findViewCall(R.id.mergezip);
+        mButtonmergetime = findViewCall(R.id.time);
+        mButtonmergetime2 = findViewCall(R.id.time2);
 
 
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -73,8 +80,44 @@ public class RxTestFragment extends BaseFragment {
                 mergezipError();
             }
         });
-    }
 
+
+        mButtonmergetime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                 isVis =!isVis;
+                setButtonVisable(isVis);
+
+            }
+        });
+    }
+    public void setButtonVisable(boolean visable){
+        Observable.timer(3000 , TimeUnit.MILLISECONDS)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .compose(this.<Long>bindToLifecycle())
+                .compose(this.<Long>applySchedulers())
+                .subscribe(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        if(visable) {
+                            mButtonmergetime2.setVisibility(View.VISIBLE);
+//                            ObjectAnimator
+//                                    .ofFloat(mButtonmergetime2, "alpha", 0.0F, 1.0F)
+//                                    .setDuration(500)
+//                                    .start();
+                        }else {
+                            mButtonmergetime2.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        },500);
+    }
 
     public void merge() {
         Integer[]itemsOne = {1,2,3,4,5,5,5,5,5,1,};
@@ -99,7 +142,7 @@ public class RxTestFragment extends BaseFragment {
         });;
         //----------------------------------------------------------------
         Observable<Integer> myObservable = Observable.merge(one.subscribeOn(Schedulers.io()),
-                two.subscribeOn(Schedulers.io())) .observeOn(AndroidSchedulers.mainThread());//
+                two.subscribeOn(Schedulers.io()));//
 
         Subscriber<Integer> mySubscriber =new Subscriber<Integer>() {
             @Override
@@ -119,7 +162,9 @@ public class RxTestFragment extends BaseFragment {
             }
         };
 
-        myObservable.subscribe(mySubscriber);
+        myObservable.
+                observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mySubscriber);
 
     }
 

@@ -54,8 +54,28 @@ public abstract class BaseFragment extends HermesFragment {
         return new Observable.Transformer<T, T>() {
             @Override
             public Observable<T> call(Observable<T> observable) {
-                return bindLifecycle(observable).subscribeOn(Schedulers.io())
+//                return   observable.subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                         .compose(getTransformer2());
+
+                       return observable
+                               .compose(getTransformer2())
+                               .compose(getIO());
+
+//                return bindLifecycle(observable).subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
+    public <T> rx.Observable.Transformer<T, T> getIO() {
+        return new Observable.Transformer<T, T>() {
+            @Override
+            public Observable<T> call(Observable<T> observable) {
+                return   observable.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
+
+
             }
         };
     }

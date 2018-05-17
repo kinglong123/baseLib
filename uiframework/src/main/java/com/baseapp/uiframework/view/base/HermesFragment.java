@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import rx.Observable;
+
 /**
  * Created by lanjl on 2016/12/2.
  */
@@ -74,12 +76,16 @@ public abstract class HermesFragment extends RxFragment {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> rx.Observable<T> bindLifecycle(rx.Observable<T> observable) {
-        rx.Observable.Transformer<? super T, ? extends T> transformer = getTransformer();
+    protected <T> Observable<T> bindLifecycle(Observable<T> observable) {
+        Observable.Transformer<? super T, ? extends T> transformer = getTransformer();
         return observable.compose(transformer);
     }
 
-    public <T> rx.Observable.Transformer<? super T, ? extends T> getTransformer() {
+    public <T>  Observable.Transformer<? super T, ? extends T> getTransformer() {
+        return  bindUntilEvent(FragmentEvent.STOP);
+    }
+
+    public <T>  Observable.Transformer<T,  T> getTransformer2() {
         return  bindUntilEvent(FragmentEvent.STOP);
     }
     @Override
