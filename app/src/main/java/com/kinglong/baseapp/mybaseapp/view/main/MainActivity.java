@@ -33,6 +33,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -77,6 +78,8 @@ public class MainActivity extends BaseActivity {
     Button mBnavtivevideocontorl;
 
     Button mBnavtivevideowidget;
+
+    Button mLift;
     @Override
     protected void afterCreate(Bundle state) {
         mButton = (Button) findViewById(R.id.bt);
@@ -99,6 +102,38 @@ public class MainActivity extends BaseActivity {
         mBnavtivevideocontorl= (Button) findViewById(R.id.navtivevideocontorl);
 
         mBnavtivevideowidget = (Button) findViewById(R.id.navtivevideowidget);
+
+        mLift = (Button) findViewById(R.id.lift);
+
+
+        mLift.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, RxLifecycleComponentsActivity.class);
+
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -251,12 +286,41 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Observable<BaseEntry> observable = UserService.getStringRxApiByDrgger();
 
-                observable.subscribeOn(Schedulers.io())
+                observable
+                        .doOnNext(new Action1<BaseEntry>() {
+                            @Override
+                            public void call(BaseEntry baseEntry) {
+                                System.out.println("map1111111111111111doOnNext"+Thread.currentThread().getName());
+
+                            }
+                        })
+
+//                        .observeOn(Schedulers.io())
+                        .flatMap(new Func1<BaseEntry, Observable<BaseEntry>>() {
+                    @Override
+                    public Observable<BaseEntry> call(BaseEntry baseEntry) {
+
+                        System.out.println("map1111111111111111flatMap"+Thread.currentThread().getName());
+                        return UserService.getStringRxApiByDrgger2();
+                    }
+                })
+                        .subscribeOn(Schedulers.io())//上面的 全部在异步线程中，subscribeOn放在的位置很重要，影响前面的doonnex和map的线程
                         .observeOn(AndroidSchedulers.mainThread())
+
+                         .map(new Func1<BaseEntry, BaseEntry>() {
+
+
+                             @Override
+                             public BaseEntry call(BaseEntry baseEntry) {
+                                 System.out.println("map1111111111111111333333"+Thread.currentThread().getName());
+
+                                 return baseEntry;
+                             }
+                         })
                         .subscribe(new Action1<BaseEntry>() {
                             @Override
                             public void call(BaseEntry baseEntry) {
-
+                                System.out.println("map11111111111111114444"+Thread.currentThread().getName());
                                 System.out.println("mButtonRxjava:" + baseEntry.getMessage());
                                 Toast.makeText(getApplication(), baseEntry.getMessage(),
                                         Toast.LENGTH_LONG).show();
@@ -264,6 +328,7 @@ public class MainActivity extends BaseActivity {
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
+                                throwable.printStackTrace();
                                 System.out.println("mButtonRxjava:" + throwable.getMessage());
                                 Toast.makeText(getApplication(), throwable.getMessage(),
                                         Toast.LENGTH_LONG).show();

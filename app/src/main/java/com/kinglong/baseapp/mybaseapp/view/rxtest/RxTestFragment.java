@@ -92,7 +92,7 @@ public class RxTestFragment extends BaseFragment {
         });
     }
     public void setButtonVisable(boolean visable){
-        Observable.timer(3000 , TimeUnit.MILLISECONDS)
+        Observable.timer(3000 ,TimeUnit.MILLISECONDS)
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .compose(this.<Long>bindToLifecycle())
                 .compose(this.<Long>applySchedulers())

@@ -6,6 +6,7 @@ import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryByJson;
 import retrofit2.Call;
 import rx.Observable;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by lanjl on 2016/12/3.
@@ -41,6 +42,7 @@ public class UserService extends AppClientManager {
         return  getRxApi().getProjectInfo("100").doOnNext(new Action1<BaseEntry>() {
             @Override
             public void call(BaseEntry baseEntry) {
+                System.out.println("map1111111111111111222222"+Thread.currentThread().getName());
                 try {
                     System.out.println("11111doOnNext:getStringRxApiByDrgger");
                     Thread.sleep(5000);
@@ -48,9 +50,34 @@ public class UserService extends AppClientManager {
                     e.printStackTrace();
                 }
             }
+        }).map(new Func1<BaseEntry, BaseEntry>() {
+            @Override
+            public BaseEntry call(BaseEntry baseEntry) {
+                System.out.println("map1111111111111111"+Thread.currentThread().getName());
+                return baseEntry;
+            }
         });
     }
 
+    public static Observable<BaseEntry> getStringRxApiByDrgger2()  {
+        return  getRxApi().getProjectInfo("100").doOnNext(new Action1<BaseEntry>() {
+            @Override
+            public void call(BaseEntry baseEntry) {
+                System.out.println("fffffffffff1111111111"+Thread.currentThread().getName());
+                try {
 
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).map(new Func1<BaseEntry, BaseEntry>() {
+            @Override
+            public BaseEntry call(BaseEntry baseEntry) {
+                System.out.println("fffffffffff1111111111222222222222"+Thread.currentThread().getName());
+                return baseEntry;
+            }
+        });
+    }
 
 }
