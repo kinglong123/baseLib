@@ -1,5 +1,7 @@
 package com.kinglong.baseapp.mybaseapp.inject.modules;
 
+//import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import com.kinglong.baseapp.mybaseapp.data.util.StringConverterFactory;
 import com.kinglong.baseapp.mybaseapp.service.api.InterAppClientApi;
 import com.kinglong.baseapp.mybaseapp.service.api.InterAppRxClientApi;
@@ -22,6 +24,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+//import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
  * Created by lanjl on 2016/12/5.

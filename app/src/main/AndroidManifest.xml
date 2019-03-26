@@ -35,6 +35,11 @@
                   android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
                   android:windowSoftInputMode="adjustPan"/>
 
+        <activity android:name=".view.down.baseDownActivity"
+                  android:screenOrientation="sensorPortrait"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                  android:windowSoftInputMode="adjustPan"/>
+
 
 
         <meta-data

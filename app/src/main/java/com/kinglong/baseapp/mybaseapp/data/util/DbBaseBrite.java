@@ -241,7 +241,16 @@ public class DbBaseBrite<T extends BaseModel> {
 */
 
     }
-
+    protected List<T> selectDate() {
+        Where<T> from;
+        if (mConditionGroup != null) {
+            from = new Select().from(clazz).where(mConditionGroup);
+        } else {
+            from = new Select().from(clazz).where();
+        }
+        List<T> entries = from.queryList();
+        return entries;
+    }
 
 
     protected void doUpdate(T data, Where<T> from) {

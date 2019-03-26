@@ -9,6 +9,10 @@ import android.net.ParseException;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
+//import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
+//import retrofit2.adapter.rxjava.HttpException;
+
 /**
  * Created by lanjl on 2016/12/19.
  */

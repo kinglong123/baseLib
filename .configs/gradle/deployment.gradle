@@ -19,7 +19,9 @@ ext {
         nexusUsername = SONAR_USERNAME
         nexusPassword = SONAR_PASSWORD
     }
-
+    println ' ------isPushSdp'+isPushSdp
+    println ' ------nexusUsername'+nexusUsername
+    println ' ------nexusPassword'+nexusPassword
     deployLocalRepo = "file:///e:/repo"
 }
 

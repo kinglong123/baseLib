@@ -1,5 +1,7 @@
 package com.kinglong.baseapp.mybaseapp.view.dbflow;
 
+//import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import com.kinglong.baseapp.mybaseapp.R;
 import com.kinglong.baseapp.mybaseapp.data.model.BaseEntryDb;
 import com.kinglong.baseapp.mybaseapp.data.model.Message;
@@ -29,6 +31,8 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+//import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * Created by lanjl on 2016/12/4.
@@ -81,7 +85,7 @@ public class DbflowTestFragment extends BaseFragment {
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {//401之类的都会在这里除了，不需要代码会直接到这里
-                                if(throwable instanceof HttpException ){
+                                if(throwable instanceof HttpException){
                                     Toast.makeText(getContext(),"接口返回错误",Toast.LENGTH_LONG).show();
 
                                 }else if(throwable instanceof UnknownHostException){
