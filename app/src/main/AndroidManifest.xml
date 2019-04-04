@@ -41,6 +41,13 @@
                   android:windowSoftInputMode="adjustPan"/>
 
 
+        <activity android:name=".view.keyboard.KeyBoardActivity"
+                  android:screenOrientation="sensorPortrait"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden|adjustResize"
+                   />
+
+
 
         <meta-data
                 android:name="UMENG_APPKEY"

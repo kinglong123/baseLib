@@ -12,6 +12,7 @@ import com.kinglong.baseapp.mybaseapp.nativevideo.NativeVideoByWidgetActivity;
 import com.kinglong.baseapp.mybaseapp.service.biz.UserService;
 import com.kinglong.baseapp.mybaseapp.view.base.BaseActivity;
 import com.kinglong.baseapp.mybaseapp.view.dbflow.DbflowTestActivity;
+import com.kinglong.baseapp.mybaseapp.view.keyboard.KeyBoardActivity;
 import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity;
 import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity3;
 import com.kinglong.baseapp.mybaseapp.view.rxtest.RxTestActivity;
@@ -104,6 +105,16 @@ public class MainActivity extends BaseActivity {
         mBnavtivevideowidget = (Button) findViewById(R.id.navtivevideowidget);
 
         mLift = (Button) findViewById(R.id.lift);
+
+         findViewById(R.id.keyboar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, KeyBoardActivity.class);
+
+                MainActivity.this.startActivity(intent);
+            }
+        });
 
 
         mLift.setOnClickListener(new View.OnClickListener() {

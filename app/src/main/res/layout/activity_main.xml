@@ -129,6 +129,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"/>
 
+        <Button
+                android:text="键盘问题"
+                android:id="@+id/keyboar"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+
+
+
     </LinearLayout>
 
 
