@@ -137,6 +137,17 @@
 
 
 
+        <Button
+                android:text="service服务"
+                android:id="@+id/service"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+
+        <Button
+                android:text="service remote服务"
+                android:id="@+id/service_remote"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
     </LinearLayout>
 
 

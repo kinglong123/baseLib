@@ -16,6 +16,8 @@ import com.kinglong.baseapp.mybaseapp.view.keyboard.KeyBoardActivity;
 import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity;
 import com.kinglong.baseapp.mybaseapp.view.restore.RestoreTestActivity3;
 import com.kinglong.baseapp.mybaseapp.view.rxtest.RxTestActivity;
+import com.kinglong.baseapp.mybaseapp.view.service.ServiceActivirty;
+import com.kinglong.baseapp.mybaseapp.view.service.client.ClienActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -487,6 +489,25 @@ public class MainActivity extends BaseActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
+
+        findViewById(R.id.service).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ServiceActivirty.class);
+
+                MainActivity.this.startActivity(intent);
+            }
+        });
+        findViewById(R.id.service_remote).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ClienActivity.class);
+
+                MainActivity.this.startActivity(intent);
+            }
+        });
+
+
     }
     //在UI线程中执行
     @Subscribe(threadMode = ThreadMode.MAIN)

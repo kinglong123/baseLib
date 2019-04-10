@@ -20,6 +20,7 @@ android {
             //    abiFilters "armeabi-v7a"
         }
     }
+
     dexOptions {
         javaMaxHeapSize "2g"
         preDexLibraries = false

@@ -46,9 +46,39 @@
                   android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
                   android:windowSoftInputMode="stateHidden|adjustResize"
                    />
+        <activity android:name=".view.service.ServiceActivirty"
+                  android:screenOrientation="sensorPortrait"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden|adjustResize"
+        />
+
+        <activity android:name=".view.service.ServiceActivirtyAidl"
+                  android:screenOrientation="sensorPortrait"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden|adjustResize"
+        />
+
+        <activity android:name=".view.service.client.ClienActivity"
+                  android:screenOrientation="sensorPortrait"
+                  android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                  android:windowSoftInputMode="stateHidden|adjustResize"
+        />
 
 
 
+        <service android:name=".view.service.MyService" />
+
+
+        <service
+                android:name=".view.service.remote.AIDLService"
+                android:enabled="true"
+                android:process=":remote"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="com.kinglong.server.action" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
         <meta-data
                 android:name="UMENG_APPKEY"
                 android:value="5844017ce88bad26de0002a8" >
