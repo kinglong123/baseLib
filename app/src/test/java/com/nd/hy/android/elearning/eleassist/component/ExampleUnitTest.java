@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import android.bluetooth.BluetoothDevice;
 
+import java.net.URLEncoder;
+
 import rx.Emitter;
 import rx.Observable;
 import rx.Subscriber;
@@ -226,6 +228,19 @@ public class ExampleUnitTest {
 
             return mSubscriber.isUnsubscribed();
         }
+    }
+
+
+
+
+    @Test
+    public void addition_isCorrect12() throws Exception{
+        String s ="u8WOD+4fPfPzM3smES/1IeesKTODOXhXEWi9xSWcbM4Xp6m057+d/eMq7NbluGhDEHJKTDUMlblEOVHcKJWpLJCutckAFyNdBJ6XUDn9G7bviofOZF11PM1lUvmHsBYTNLdXrS3IXvPFOvYQqGSLPOQecB/mtWClSkhn/L9QbU8=";
+
+        String strBase64 = URLEncoder.encode(s, "utf-8");
+        System.out
+                .println("strBase64:"+strBase64);
+
     }
 
 

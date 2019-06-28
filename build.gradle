@@ -4,6 +4,10 @@ apply from: "${CONFIG_URL}/loadConfig.gradle"
 
 buildscript {
     repositories {
+        maven {
+            name 'nd nexus android-public'
+            url "http://nexus.sdp.nd/nexus/content/groups/android-public/"
+        }
         mavenCentral()
         jcenter()
     }
@@ -29,11 +33,14 @@ allprojects {
     version = POM_VERSION
 
     repositories {
+        maven {
+            name 'nd nexus android-public'
+            url "http://nexus.sdp.nd/nexus/content/groups/android-public/"
+        }
+        mavenCentral()
         jcenter()
         maven { url "https://www.jitpack.io" }
-        maven {
 
-        }
     }
 //    println project.group + " " + project.name + " v" + project.version
 

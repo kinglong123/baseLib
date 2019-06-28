@@ -30,6 +30,7 @@ public class AIDLService  extends Service {
         bookList = new ArrayList<>();
         initData();
     }
+
     private void initData() {
         Book book1 = new Book("活着");
         Book book2 = new Book("或者");

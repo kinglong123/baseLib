@@ -1,0 +1,15 @@
+apply from: "${cacheConfigs}/gradle/library.gradle"
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile libs.appcompat
+    compile libs.supportV4
+
+    provided libs.javaxAnnotation
+    provided libs.supportAnnotation
+
+
+    compile project(':sqlbriteHelper')
+}
+apply from: "${cacheConfigs}/gradle/upload.gradle"
